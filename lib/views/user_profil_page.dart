@@ -56,15 +56,17 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                 ))
                           ],
                         ))),
-                FloatingActionButton.extended(
-                    elevation: 1,
-                    onPressed: () {},
-                    label: const Text("Inviter des amis et gagner des points")),
                 Card(
-                    child: SizedBox(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
                   width: MediaQuery.of(context).size.width - 50,
                   child: Column(
                     children: [
+                      FloatingActionButton.extended(
+                          elevation: 1,
+                          onPressed: () {},
+                          label: const Text(
+                              "Inviter des amis et gagner des points")),
                       const ListTile(
                         title: Text("Notifications"),
                         trailing: Icon(Icons.notifications),

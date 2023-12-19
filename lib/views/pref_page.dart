@@ -20,15 +20,13 @@ class _PrefPageState extends State<PrefPage> {
           child: ListView(children: [
             const Text(
               "Vos centres d'interets",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 250,
             ),
             FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const UserProfilPage();

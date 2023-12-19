@@ -38,16 +38,21 @@ class _AuthPageState extends State<AuthPage> {
                 ),
               ),
               Container(
-                  height: 200,
+                  //height: 200,
                   margin: const EdgeInsets.symmetric(vertical: 20),
                   alignment: Alignment.center,
                   child: const Text(
-                    "Sortons comme des stars !",
+                    "Sortons comme des stars !\n\nDécouvrez les plus beaux et extraordinaires endroits de Ouagadougou\nParticiper a des évènements tous aussi exceptionnels\n\nSortons comme des stars",
                     style: TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.italic,
                         fontSize: 20),
                   )),
+              const Text("Authentification",
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
               Container(
                   height: 60,
                   alignment: Alignment.center,
@@ -69,6 +74,7 @@ class _AuthPageState extends State<AuthPage> {
               ),
               FloatingActionButton.extended(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return const IdentityPage();

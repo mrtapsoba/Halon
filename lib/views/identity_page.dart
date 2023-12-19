@@ -18,7 +18,7 @@ class _IdentityPageState extends State<IdentityPage> {
           child: ListView(children: [
             const Text(
               "Information personnelle",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             const Text(
                 "Votre age est demandé pour pouvoir vous proposer du contenu approprié. Vos informations personnelles ne sont pas partager avec des structure tiers."),
@@ -84,8 +84,27 @@ class _IdentityPageState extends State<IdentityPage> {
             const SizedBox(
               height: 25,
             ),
+            Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(color: Colors.green, blurRadius: 2)
+                    ],
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Code de celui qui vous invite (facultatif)"),
+                )),
+            const SizedBox(
+              height: 25,
+            ),
             FloatingActionButton.extended(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const PrefPage();
                   }));

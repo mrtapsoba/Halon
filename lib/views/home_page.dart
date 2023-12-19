@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
-                                                image: DecorationImage(
+                                                image: const DecorationImage(
                                                     fit: BoxFit.cover,
                                                     image: NetworkImage(
                                                         "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg"))),
