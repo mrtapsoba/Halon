@@ -59,7 +59,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                         ))),
                 Card(
                     child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   width: MediaQuery.of(context).size.width - 50,
                   child: Column(
                     children: [
