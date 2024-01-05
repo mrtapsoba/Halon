@@ -36,7 +36,7 @@ class _OnePubPageState extends State<OnePubPage> {
         ),
         DraggableScrollableSheet(
             initialChildSize: 0.5,
-            minChildSize: 0.2,
+            minChildSize: 0.45,
             maxChildSize: 0.9,
             builder: (context, ScrollController scrollController) {
               return Container(

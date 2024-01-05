@@ -1,5 +1,6 @@
 import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/views/auth_page.dart';
+import 'package:decouvrir/views/categorie_page.dart';
 import 'package:decouvrir/views/one_pub_page.dart';
 import 'package:flutter/material.dart';
 
@@ -67,17 +68,24 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(children: [
-                            Card(
-                                child: Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://i.pinimg.com/564x/a1/d9/e5/a1d9e521adae4ae4626bfbdc30fa8e29.jpg"))),
-                            )),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const CategoriePage();
+                                  }));
+                                },
+                                child: Card(
+                                    child: Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: const DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              "https://i.pinimg.com/564x/a1/d9/e5/a1d9e521adae4ae4626bfbdc30fa8e29.jpg"))),
+                                ))),
                             const Text("Evenements")
                           ]),
                           Column(children: [

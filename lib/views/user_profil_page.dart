@@ -15,10 +15,11 @@ class _UserProfilPageState extends State<UserProfilPage> {
         appBar: AppBar(title: const Text("Salut, TAPSOBA")),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(Constantes().imagetest))),
+                    image: NetworkImage(
+                        "https://i.pinimg.com/564x/2e/c0/77/2ec0773a1fcd847a5bd258ea4bba668e.jpg"))),
             child: Column(
               children: [
                 Card(
@@ -58,7 +59,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                         ))),
                 Card(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   width: MediaQuery.of(context).size.width - 50,
                   child: Column(
                     children: [
