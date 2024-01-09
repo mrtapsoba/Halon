@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "154392221519",
+    "project_id": "halon-explore",
+    "storage_bucket": "halon-explore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154392221519:android:1ca23b94560fd1d04f173a",
+        "android_client_info": {
+          "package_name": "com.intellectusbf.halonexplore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154392221519-1vjmv4khnojtj2306km468bg10857ndq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.intellectusbf.halonexplore",
+            "certificate_hash": "723da88e6496a733dc021d5668114d2767d307cb"
+          }
+        },
+        {
+          "client_id": "154392221519-aln07chvum2hgr887iu7b0nta0m412a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgDrdz-XH7WAkQOcQJjYSLSnNS9efDzQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154392221519-aln07chvum2hgr887iu7b0nta0m412a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

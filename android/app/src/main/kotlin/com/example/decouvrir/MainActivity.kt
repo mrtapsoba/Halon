@@ -1,4 +1,4 @@
-package com.example.decouvrir
+package com.intellectusbf.halonexplore
 
 import io.flutter.embedding.android.FlutterActivity
 
