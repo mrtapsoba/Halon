@@ -1,3 +1,4 @@
+import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/views/identity_page.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class _AuthPageState extends State<AuthPage> {
   TextEditingController codeOTP = TextEditingController();
   bool isSending = false;
 
+  AuthController authController = AuthController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +35,7 @@ class _AuthPageState extends State<AuthPage> {
               ListTile(
                 leading: IconButton.filledTonal(
                     onPressed: () {
+                      authController.deconnexion();
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.arrow_back)),
@@ -104,13 +108,16 @@ class _AuthPageState extends State<AuthPage> {
                                     actions: [
                                       ElevatedButton(
                                           onPressed: () async {
-                                            await auth
-                                                .signInWithCredential(
-                                                    credential)
-                                                .then((value) {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                            });
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            print("Authentified");
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return const IdentityPage();
+                                            }));
+                                            await auth.signInWithCredential(
+                                                credential);
                                           },
                                           child: const Text("OK"))
                                     ],
@@ -172,16 +179,14 @@ class _AuthPageState extends State<AuthPage> {
                                                       smsCode: codeOTP.text);
                                               Navigator.pop(context);
                                               Navigator.pop(context);
-                                              await auth
-                                                  .signInWithCredential(
-                                                      credential)
-                                                  .then((value) =>
-                                                      Navigator.push(context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) {
-                                                        return const IdentityPage();
-                                                      })));
+                                              print("Authentified");
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return const IdentityPage();
+                                              }));
+                                              await auth.signInWithCredential(
+                                                  credential);
                                             },
                                             child: const Text("Valider"))
                                       ],
@@ -229,7 +234,15 @@ class _AuthPageState extends State<AuthPage> {
                 children: [
                   FloatingActionButton(
                     backgroundColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () async {
+                      print("Authentified");
+                      await authController.signInWithGoogle();
+                      Navigator.pop(context);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const IdentityPage();
+                      }));
+                    },
                     child: Image.network(
                         "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg"),
                   ),
