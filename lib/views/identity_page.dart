@@ -1,3 +1,4 @@
+import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/views/pref_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class IdentityPage extends StatefulWidget {
 }
 
 class _IdentityPageState extends State<IdentityPage> {
+  AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +107,11 @@ class _IdentityPageState extends State<IdentityPage> {
             FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.pop(context);
+                  authController
+                      .deconnexion(); /*
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const PrefPage();
-                  }));
+                  }));*/
                 },
                 label: Container(
                   alignment: Alignment.center,

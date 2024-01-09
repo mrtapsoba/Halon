@@ -3,6 +3,7 @@ import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/views/identity_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -21,6 +22,10 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AppUser?>(context);
+    if (user != null) {
+      return const IdentityPage();
+    }
     return Scaffold(
       body: Container(
           padding: const EdgeInsets.all(50),
@@ -90,7 +95,6 @@ class _AuthPageState extends State<AuthPage> {
                       trailing: CircularProgressIndicator())
                   : FloatingActionButton.extended(
                       onPressed: () async {
-                        print('+226${numeroPhone.text}');
                         await FirebaseAuth.instance.verifyPhoneNumber(
                           phoneNumber: '+226${numeroPhone.text}',
                           verificationCompleted:
@@ -98,31 +102,12 @@ class _AuthPageState extends State<AuthPage> {
                             setState(() {
                               isSending = false;
                             });
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text("Vérification réussie"),
-                                    content: const Text(
-                                        "Nous avons pu vérifier automatiquement votre numéro de telephone, veuillez cliquer sur OK"),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                            print("Authentified");
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return const IdentityPage();
-                                            }));
-                                            await auth.signInWithCredential(
-                                                credential);
-                                          },
-                                          child: const Text("OK"))
-                                    ],
-                                  );
-                                });
+                            auth.signInWithCredential(credential);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Verification automatique réussie"),
+                              backgroundColor: Colors.green,
+                            ));
                           },
                           verificationFailed: (FirebaseAuthException e) {
                             String error = "Error";
@@ -178,13 +163,7 @@ class _AuthPageState extends State<AuthPage> {
                                                           verificationId,
                                                       smsCode: codeOTP.text);
                                               Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              print("Authentified");
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return const IdentityPage();
-                                              }));
+
                                               await auth.signInWithCredential(
                                                   credential);
                                             },
@@ -205,11 +184,6 @@ class _AuthPageState extends State<AuthPage> {
                             ));
                           },
                         );
-                        /*Navigator.pop(context);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const IdentityPage();
-                    }));*/
                       },
                       label: Container(
                         alignment: Alignment.center,
@@ -234,14 +208,13 @@ class _AuthPageState extends State<AuthPage> {
                 children: [
                   FloatingActionButton(
                     backgroundColor: Colors.white,
-                    onPressed: () async {
-                      print("Authentified");
-                      await authController.signInWithGoogle();
-                      Navigator.pop(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const IdentityPage();
-                      }));
+                    onPressed: () {
+                      authController.signInWithGoogle();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content:
+                            Text("Connexion via votre compte google réussie"),
+                        backgroundColor: Colors.green,
+                      ));
                     },
                     child: Image.network(
                         "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg"),
