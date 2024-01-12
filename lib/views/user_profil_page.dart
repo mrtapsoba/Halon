@@ -37,7 +37,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                       fit: BoxFit.cover,
                                       image:
                                           NetworkImage(Constantes().imagetest)),
-                                  color: Colors.green,
+                                  color: Constantes().mainColor,
                                   borderRadius: BorderRadius.circular(62.5)),
                             ),
                             Container(

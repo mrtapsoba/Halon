@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:decouvrir/models/constantes.dart';
 
 class CommentPage extends StatefulWidget {
   const CommentPage({super.key});
@@ -30,8 +31,8 @@ class _CommentPageState extends State<CommentPage> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(color: Colors.green, blurRadius: 2)
+                  boxShadow: [
+                    BoxShadow(color: Constantes().mainColor, blurRadius: 2)
                   ],
                   borderRadius: BorderRadius.circular(10)),
               child: TextFormField(

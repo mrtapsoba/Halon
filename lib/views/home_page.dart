@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: 200,
             decoration: BoxDecoration(
-                color: Colors.green,
+                color: Constantes().mainColor,
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(Constantes().imagetest))),
@@ -35,8 +35,9 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(color: Colors.green, blurRadius: 2)
+                          boxShadow: [
+                            BoxShadow(
+                                color: Constantes().mainColor, blurRadius: 2)
                           ],
                           borderRadius: BorderRadius.circular(10)),
                       child: const Text("Ou voulez vous allez aujourd'hui ?"))
@@ -53,8 +54,10 @@ class _HomePageState extends State<HomePage> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(color: Colors.green, blurRadius: 2)
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Constantes().mainColor,
+                                    blurRadius: 2)
                               ],
                               borderRadius: BorderRadius.circular(10)),
                           child:

@@ -1,5 +1,6 @@
 import 'package:decouvrir/views/comment_page.dart';
 import 'package:flutter/material.dart';
+import 'package:decouvrir/models/constantes.dart';
 
 class OnePubPage extends StatefulWidget {
   const OnePubPage({super.key});
@@ -139,11 +140,12 @@ class _OnePubPageState extends State<OnePubPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "Ouvert",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.green),
+                                                  color:
+                                                      Constantes().mainColor),
                                             ),
                                             TextButton.icon(
                                                 onPressed: () {},
@@ -175,12 +177,12 @@ class _OnePubPageState extends State<OnePubPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text(
+                    Text(
                       "Ouvert",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
-                          color: Colors.green),
+                          color: Constantes().mainColor),
                     ),
                     TextButton.icon(
                         onPressed: () {},

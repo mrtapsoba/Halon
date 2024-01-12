@@ -16,6 +16,7 @@ class _AuthPageState extends State<AuthPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController numeroPhone = TextEditingController();
   TextEditingController codeOTP = TextEditingController();
+  TextEditingController email = TextEditingController();
   bool isSending = false;
 
   AuthController authController = AuthController();
@@ -29,8 +30,12 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       body: Container(
           padding: const EdgeInsets.all(50),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Constantes().mainColor, Colors.white],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomRight),
+            image: const DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
                     "https://i.pinimg.com/564x/2e/c0/77/2ec0773a1fcd847a5bd258ea4bba668e.jpg")),
@@ -73,11 +78,12 @@ class _AuthPageState extends State<AuthPage> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(color: Colors.green, blurRadius: 2)
+                      boxShadow: [
+                        BoxShadow(color: Constantes().mainColor, blurRadius: 2)
                       ],
                       borderRadius: BorderRadius.circular(10)),
                   child: TextFormField(
+                    style: TextStyle(fontSize: 25),
                     controller: numeroPhone,
                     //textAlign: TextAlign.center,
                     keyboardType: TextInputType.phone,
@@ -103,10 +109,10 @@ class _AuthPageState extends State<AuthPage> {
                               isSending = false;
                             });
                             auth.signInWithCredential(credential);
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("Verification automatique réussie"),
-                              backgroundColor: Colors.green,
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: const Text(
+                                  "Verification automatique réussie"),
+                              backgroundColor: Constantes().mainColor,
                             ));
                           },
                           verificationFailed: (FirebaseAuthException e) {
@@ -203,37 +209,101 @@ class _AuthPageState extends State<AuthPage> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
+              /* Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FloatingActionButton(
+                  */
+              FloatingActionButton.extended(
+                elevation: 1,
+                backgroundColor: Colors.white,
+                onPressed: () async {
+                  await authController.signInWithGoogle();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content:
+                        const Text("Connexion via votre compte google réussie"),
+                    backgroundColor: Constantes().mainColor,
+                  ));
+                },
+                icon: CircleAvatar(
+                    child: Image.network(
+                        "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg")),
+                label: const Text("un Compte Google"),
+              ),
+              /*FloatingActionButton.extended(
+                    elevation: 1,
                     backgroundColor: Colors.white,
                     onPressed: () {
-                      authController.signInWithGoogle();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content:
-                            Text("Connexion via votre compte google réussie"),
-                        backgroundColor: Colors.green,
-                      ));
+                      var acs = ActionCodeSettings(
+                          // URL you want to redirect back to. The domain (www.example.com) for this
+                          // URL must be whitelisted in the Firebase Console.
+                          url:
+                              'https://halonexplore.page.link/mailauth?email=${email.text}',
+                          // This must be true
+                          handleCodeInApp: true,
+                          iOSBundleId: 'com.example.ios',
+                          androidPackageName: 'com.intellectusbf.halonexplore',
+                          // installIfNotAvailable
+                          androidInstallApp: true,
+                          // minimumVersion
+                          androidMinimumVersion: '12');
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Email authentification"),
+                              content: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: TextFormField(
+                                    controller: email,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: const InputDecoration(
+                                        hintText: "Adresse email",
+                                        border: InputBorder.none)),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      auth
+                                          .sendSignInLinkToEmail(
+                                              email: email.text,
+                                              actionCodeSettings: acs)
+                                          .catchError((onError) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "Echec de l'envoi du lien"),
+                                                backgroundColor: Colors.orange,
+                                              )))
+                                          .then((value) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "Succes de l'envoi du lien, Verifier votre boite mail"),
+                                                backgroundColor: Colors.blue,
+                                              )));
+                                    },
+                                    child: const Text(
+                                        "M'envoyer le lien de confirmation"))
+                              ],
+                            );
+                          });
                     },
-                    child: Image.network(
-                        "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg"),
-                  ),
-                  FloatingActionButton(
-                    backgroundColor: Colors.blue,
-                    onPressed: () {},
-                    child: const Icon(
-                      Icons.facebook,
-                      color: Colors.white,
+                    icon: const Icon(
+                      Icons.mail_outline,
+                      color: Colors.blue,
+                    ),
+                    label: const Text(
+                      "Adresse email",
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
-                  FloatingActionButton(
-                      backgroundColor: Colors.black,
-                      onPressed: () {},
-                      child: Image.network(
-                          "https://i.pinimg.com/564x/cc/31/6f/cc316f97197528e5e26e613a93ab16a4.jpg")),
                 ],
-              ),
+              ),*/
             ],
           )),
     );

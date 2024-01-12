@@ -23,9 +23,11 @@ class MyApp extends StatelessWidget {
         value: AuthController().user,
         initialData: null,
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: Constantes().appName,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: Constantes().mainColor),
               useMaterial3: true,
             ),
             home: const HomePage()));

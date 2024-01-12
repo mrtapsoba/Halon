@@ -1,6 +1,6 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
-import 'package:decouvrir/views/pref_page.dart';
 import 'package:flutter/material.dart';
+import 'package:decouvrir/models/constantes.dart';
 
 class IdentityPage extends StatefulWidget {
   const IdentityPage({super.key});
@@ -50,8 +50,8 @@ class _IdentityPageState extends State<IdentityPage> {
                 height: 60,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.green, blurRadius: 2)
+                    boxShadow: [
+                      BoxShadow(color: Constantes().mainColor, blurRadius: 2)
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
@@ -68,8 +68,8 @@ class _IdentityPageState extends State<IdentityPage> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.green, blurRadius: 2)
+                    boxShadow: [
+                      BoxShadow(color: Constantes().mainColor, blurRadius: 2)
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextButton.icon(
@@ -90,8 +90,8 @@ class _IdentityPageState extends State<IdentityPage> {
                 height: 60,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.green, blurRadius: 2)
+                    boxShadow: [
+                      BoxShadow(color: Constantes().mainColor, blurRadius: 2)
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
