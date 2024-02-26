@@ -1,6 +1,9 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/models/constantes.dart';
+import 'package:decouvrir/models/user_model.dart';
 import 'package:decouvrir/views/identity_page.dart';
+import 'package:decouvrir/views/user_profil_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +28,30 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser?>(context);
     if (user != null) {
-      return const IdentityPage();
+      return StreamBuilder(
+          stream: UserController().getUserConnect(user.uid),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print(snapshot.error);
+            }
+            if (snapshot.hasData) {
+              List<Map<String, dynamic>> snapdata =
+                  snapshot.data as List<Map<String, dynamic>>;
+              if (snapdata.isEmpty) {
+                return IdentityPage(user: user);
+              }
+              return UserProfilPage(
+                userModel: UserModel(
+                  nom: snapdata[0]['nom'],
+                  age: DateTime.fromMillisecondsSinceEpoch(
+                      int.parse(snapdata[0]['birthday'].toString())),
+                ),
+              );
+            }
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          });
     }
     return Scaffold(
       body: Container(

@@ -1,10 +1,7 @@
 class NotationModel {
   String? userId;
-  String? userName;
-  String? userImage;
-  String? note;
+  int? note;
   DateTime? date;
 
-  NotationModel(
-      {this.userId, this.userName, this.userImage, this.note, this.date});
+  NotationModel({this.userId, this.note, this.date});
 }

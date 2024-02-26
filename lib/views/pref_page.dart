@@ -1,8 +1,9 @@
-import 'package:decouvrir/views/user_profil_page.dart';
+import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 class PrefPage extends StatefulWidget {
-  const PrefPage({super.key});
+  const PrefPage({super.key, required this.user});
+  final AppUser user;
 
   @override
   State<PrefPage> createState() => _PrefPageState();
@@ -28,9 +29,10 @@ class _PrefPageState extends State<PrefPage> {
             FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+
+                  /*Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const UserProfilPage();
-                  }));
+                  }));*/
                 },
                 label: Container(
                   alignment: Alignment.center,

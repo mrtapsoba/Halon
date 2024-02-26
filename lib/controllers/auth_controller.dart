@@ -4,8 +4,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AppUser {
   final String uid;
+  final String phone;
   AppUser({
     required this.uid,
+    required this.phone,
   });
 }
 
@@ -40,7 +42,9 @@ class AuthController {
   }
 
   AppUser? userFromFirebase(User? user) {
-    return (user != null) ? AppUser(uid: user.uid) : null;
+    return (user != null)
+        ? AppUser(uid: user.uid, phone: user.phoneNumber!)
+        : null;
   }
 
   Stream<AppUser?> get user {

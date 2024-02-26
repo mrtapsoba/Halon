@@ -1,9 +1,12 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/user_controller.dart';
+import 'package:decouvrir/views/pref_page.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 
 class IdentityPage extends StatefulWidget {
-  const IdentityPage({super.key});
+  const IdentityPage({super.key, required this.user});
+  final AppUser user;
 
   @override
   State<IdentityPage> createState() => _IdentityPageState();
@@ -11,6 +14,11 @@ class IdentityPage extends StatefulWidget {
 
 class _IdentityPageState extends State<IdentityPage> {
   AuthController authController = AuthController();
+  TextEditingController username = TextEditingController();
+  TextEditingController parrainCode = TextEditingController();
+  String? image;
+  DateTime? birthday;
+  UserController userController = UserController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +63,7 @@ class _IdentityPageState extends State<IdentityPage> {
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
+                  controller: username,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
@@ -76,13 +85,19 @@ class _IdentityPageState extends State<IdentityPage> {
                     onPressed: () {
                       showDatePicker(
                         context: context,
-                        initialDate: DateTime(1999),
+                        initialDate: DateTime(1999, 9, 5),
                         firstDate: DateTime(1961),
                         lastDate: DateTime.now(),
-                      );
+                      ).then((value) {
+                        setState(() {
+                          birthday = value;
+                        });
+                      });
                     },
                     icon: const Icon(Icons.calendar_month),
-                    label: const Text("Date de naissance"))),
+                    label: Text(birthday != null
+                        ? birthday.toString()
+                        : "Date de naissance"))),
             const SizedBox(
               height: 25,
             ),
@@ -95,6 +110,7 @@ class _IdentityPageState extends State<IdentityPage> {
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
+                  controller: parrainCode,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
@@ -106,12 +122,18 @@ class _IdentityPageState extends State<IdentityPage> {
             ),
             FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.pop(context);
-                  authController
-                      .deconnexion(); /*
+                  userController.setUserInfo(
+                      widget.user.uid,
+                      widget.user.phone,
+                      username.text,
+                      parrainCode.text,
+                      birthday!.millisecondsSinceEpoch,
+                      'image!');
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const PrefPage();
-                  }));*/
+                    return PrefPage(
+                      user: widget.user,
+                    );
+                  }));
                 },
                 label: Container(
                   alignment: Alignment.center,

@@ -1,8 +1,11 @@
+import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 
 class UserProfilPage extends StatefulWidget {
-  const UserProfilPage({super.key});
+  const UserProfilPage({super.key, required this.userModel});
+  final UserModel userModel;
 
   @override
   State<UserProfilPage> createState() => _UserProfilPageState();
@@ -12,7 +15,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Salut, TAPSOBA")),
+        appBar: AppBar(title: Text("Salut, ${widget.userModel.nom}")),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             decoration: const BoxDecoration(
@@ -47,10 +50,11 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    const Text("Nom d'utilisateur"),
-                                    const Text("24 ans"),
+                                    Text("${widget.userModel.nom}"),
+                                    Text(
+                                        "${DateTime.now().year - widget.userModel.age.year} ans"),
                                     const Text("203 points"),
-                                    ElevatedButton(
+                                    FilledButton.tonal(
                                         onPressed: () {},
                                         child: const Text("Modifier"))
                                   ],
@@ -78,7 +82,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                       const ListTile(
                         title: Text("Mes préférences"),
                       ),
-                      ElevatedButton(
+                      FilledButton.tonal(
                           onPressed: () {},
                           child: const Text(
                             "Devenir partenaire evenementiel",
@@ -91,7 +95,10 @@ class _UserProfilPageState extends State<UserProfilPage> {
                         title: Text("Politique de confidentialité"),
                       ),
                       TextButton(
-                          onPressed: () {}, child: const Text("Déconnexion"))
+                          onPressed: () {
+                            AuthController().deconnexion();
+                          },
+                          child: const Text("Déconnexion"))
                     ],
                   ),
                 ))

@@ -93,17 +93,19 @@ class _HomePageState extends State<HomePage> {
                             const Text("Evenements")
                           ]),
                           Column(children: [
-                            Card(
-                                child: Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://i.pinimg.com/236x/76/fd/29/76fd2985f89767a97650222030401e45.jpg"))),
-                            )),
+                            GestureDetector(
+                                onTap: () {},
+                                child: Card(
+                                    child: Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: const DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              "https://i.pinimg.com/236x/76/fd/29/76fd2985f89767a97650222030401e45.jpg"))),
+                                ))),
                             const Text("Tourisme")
                           ]),
                           Column(children: [
