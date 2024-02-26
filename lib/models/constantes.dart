@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constantes {
   String imagetest =
-      "https://i.pinimg.com/564x/a4/a7/c4/a4a7c476dfe5e776fe214ae8d65ba40d.jpg";
+      "https://i.pinimg.com/564x/41/4c/74/414c7472d95b28f2d6673498c59cbfb3.jpg";
   String appName = "PRIME CLUB";
   Color mainColor = Colors.blue;
 }

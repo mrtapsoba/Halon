@@ -61,10 +61,8 @@ class _AuthPageState extends State<AuthPage> {
                 colors: [Constantes().mainColor, Colors.white],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomRight),
-            image: const DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://i.pinimg.com/564x/2e/c0/77/2ec0773a1fcd847a5bd258ea4bba668e.jpg")),
+            image: DecorationImage(
+                fit: BoxFit.cover, image: NetworkImage(Constantes().imagetest)),
           ),
           child: ListView(
             children: [

@@ -18,11 +18,10 @@ class _UserProfilPageState extends State<UserProfilPage> {
         appBar: AppBar(title: Text("Salut, ${widget.userModel.nom}")),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://i.pinimg.com/564x/2e/c0/77/2ec0773a1fcd847a5bd258ea4bba668e.jpg"))),
+                    image: NetworkImage(Constantes().imagetest))),
             child: Column(
               children: [
                 Card(
