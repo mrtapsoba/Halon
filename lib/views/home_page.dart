@@ -3,6 +3,7 @@ import 'package:decouvrir/views/auth_page.dart';
 import 'package:decouvrir/views/categorie_page.dart';
 import 'package:decouvrir/views/one_pub_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool searchbar = false;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +75,23 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Column(children: [
                             GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return const CategoriePage();
+                                    return const CategoriePage(
+                                      categorie: "Event",
+                                    );
                                   }));
+                                  await analytics.logBeginCheckout(
+                                      value: 10.0,
+                                      currency: 'USD',
+                                      items: [
+                                        AnalyticsEventItem(
+                                            itemName: 'Event',
+                                            itemId: 'Event',
+                                            price: 10.0),
+                                      ],
+                                      coupon: '10PERCENTOFF');
                                 },
                                 child: Card(
                                     child: Container(
@@ -94,7 +108,14 @@ class _HomePageState extends State<HomePage> {
                           ]),
                           Column(children: [
                             GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const CategoriePage(
+                                      categorie: "Tourisme",
+                                    );
+                                  }));
+                                },
                                 child: Card(
                                     child: Container(
                                   height: 75,

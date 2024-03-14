@@ -111,7 +111,7 @@ class _OnePubPageState extends State<OnePubPage> {
                             ExpansionTile(
                               leading: const Icon(Icons.discount),
                               backgroundColor:
-                                  Constantes().mainColor.withOpacity(0.25),
+                                  Constantes().mainColor.withOpacity(0.2),
                               title: const Text(
                                 "Reduction du menu pour toi !",
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -234,7 +234,7 @@ class _OnePubPageState extends State<OnePubPage> {
               ])),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        label: const Text("Localisation"),
+        label: const Text("J'y vais / Localisation"),
         icon: const Icon(Icons.location_on),
       ),
     );

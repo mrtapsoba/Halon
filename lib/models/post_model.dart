@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
@@ -11,16 +13,16 @@ class PostModel {
   int? entree;
   String? fermeture;
   String? ouverture;
-  DateTime? dateDebut;
-  DateTime? dateFin;
-  Map<String, dynamic>? categories;
-  String? imageUrl;
+  Timestamp? dateDebut;
+  Timestamp? dateFin;
+  List<dynamic>? categories;
+  List<dynamic>? imageUrl;
   int? ageMin;
   int? commentNbr;
   int? noteMoy;
   int? visiteNbr;
   int? poidsForUser;
-  DateTime? datePost;
+  Timestamp? datePost;
 
   PostModel(
       {required this.id,
@@ -62,10 +64,10 @@ class PostModel {
       datePost: data['date_post'],
       categories: data['categories'],
       imageUrl: data['image_url'],
-      ageMin: data['age_min'],
-      commentNbr: data['comment_nbr'],
-      noteMoy: data['note_moy'],
-      visiteNbr: data['visite_nbr'],
+      ageMin: data['age_min'] as int,
+      commentNbr: data['comment_nbr'] as int,
+      noteMoy: data['note_moy'] as int,
+      visiteNbr: data['visite_nbr'] as int,
     );
   }
 }
