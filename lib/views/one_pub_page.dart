@@ -59,7 +59,8 @@ class _OnePubPageState extends State<OnePubPage> {
                             ),
                             const Text(
                                 "Les catégories de l'évenement ou du lieu"),
-                            const Text("Petite description du lieu"),
+                            const Text(
+                                "Petite description du lieu Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum"),
                             const Text(
                               "Adresse : Adresse complete du lieu",
                               style: TextStyle(fontStyle: FontStyle.italic),
@@ -96,7 +97,7 @@ class _OnePubPageState extends State<OnePubPage> {
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            FloatingActionButton.extended(
+                            /*FloatingActionButton.extended(
                                 elevation: 1,
                                 onPressed: () {},
                                 label: Container(
@@ -106,7 +107,21 @@ class _OnePubPageState extends State<OnePubPage> {
                                     child: const Text("Planifier la sortie",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w900,
-                                            fontSize: 20)))),
+                                            fontSize: 20)))),*/
+                            ExpansionTile(
+                              leading: const Icon(Icons.discount),
+                              backgroundColor:
+                                  Constantes().mainColor.withOpacity(0.25),
+                              title: const Text(
+                                "Reduction du menu pour toi !",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              children: const [
+                                Text("Panini à 900f au lieu de 1000"),
+                                Text("Chawarma à 900f au lieu de 1000"),
+                                Text("Gapal à 400 au lieu de 500")
+                              ],
+                            ),
                             const SizedBox(height: 20),
                             const Text(
                               "Simulaires",
@@ -217,9 +232,10 @@ class _OnePubPageState extends State<OnePubPage> {
                   ],
                 ),
               ])),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        child: const Icon(Icons.location_on),
+        label: const Text("Localisation"),
+        icon: const Icon(Icons.location_on),
       ),
     );
   }

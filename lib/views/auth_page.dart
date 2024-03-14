@@ -107,7 +107,7 @@ class _AuthPageState extends State<AuthPage> {
                       ],
                       borderRadius: BorderRadius.circular(10)),
                   child: TextFormField(
-                    style: TextStyle(fontSize: 25),
+                    style: const TextStyle(fontSize: 25),
                     controller: numeroPhone,
                     //textAlign: TextAlign.center,
                     keyboardType: TextInputType.phone,
@@ -124,6 +124,7 @@ class _AuthPageState extends State<AuthPage> {
                       title: Text('Verification du numero en cours'),
                       trailing: CircularProgressIndicator())
                   : FloatingActionButton.extended(
+                      elevation: 1,
                       onPressed: () async {
                         await FirebaseAuth.instance.verifyPhoneNumber(
                           phoneNumber: '+226${numeroPhone.text}',
@@ -227,7 +228,7 @@ class _AuthPageState extends State<AuthPage> {
               ),
               const Center(
                   child: Text(
-                "Ou continuer avec",
+                "Ou",
                 style: TextStyle(color: Colors.white),
               )),
               const SizedBox(
@@ -237,97 +238,22 @@ class _AuthPageState extends State<AuthPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   */
-              FloatingActionButton.extended(
-                elevation: 1,
-                backgroundColor: Colors.white,
+              ElevatedButton.icon(
                 onPressed: () async {
                   await authController.signInWithGoogle();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content:
-                        const Text("Connexion via votre compte google réussie"),
+                    content: const Text(
+                      "Connexion via votre compte google réussie",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     backgroundColor: Constantes().mainColor,
                   ));
                 },
                 icon: CircleAvatar(
                     child: Image.network(
                         "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg")),
-                label: const Text("un Compte Google"),
-              ),
-              /*FloatingActionButton.extended(
-                    elevation: 1,
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      var acs = ActionCodeSettings(
-                          // URL you want to redirect back to. The domain (www.example.com) for this
-                          // URL must be whitelisted in the Firebase Console.
-                          url:
-                              'https://halonexplore.page.link/mailauth?email=${email.text}',
-                          // This must be true
-                          handleCodeInApp: true,
-                          iOSBundleId: 'com.example.ios',
-                          androidPackageName: 'com.intellectusbf.halonexplore',
-                          // installIfNotAvailable
-                          androidInstallApp: true,
-                          // minimumVersion
-                          androidMinimumVersion: '12');
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Email authentification"),
-                              content: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: TextFormField(
-                                    controller: email,
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: const InputDecoration(
-                                        hintText: "Adresse email",
-                                        border: InputBorder.none)),
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      auth
-                                          .sendSignInLinkToEmail(
-                                              email: email.text,
-                                              actionCodeSettings: acs)
-                                          .catchError((onError) =>
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "Echec de l'envoi du lien"),
-                                                backgroundColor: Colors.orange,
-                                              )))
-                                          .then((value) =>
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "Succes de l'envoi du lien, Verifier votre boite mail"),
-                                                backgroundColor: Colors.blue,
-                                              )));
-                                    },
-                                    child: const Text(
-                                        "M'envoyer le lien de confirmation"))
-                              ],
-                            );
-                          });
-                    },
-                    icon: const Icon(
-                      Icons.mail_outline,
-                      color: Colors.blue,
-                    ),
-                    label: const Text(
-                      "Adresse email",
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                ],
-              ),*/
+                label: const Text(" continuer avec un Compte Google"),
+              )
             ],
           )),
     );

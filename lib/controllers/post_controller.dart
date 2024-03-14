@@ -12,6 +12,42 @@ class PostController {
     return post.docs.map((e) => PostModel.fromDatabase(e)).toList();
   }
 
+  Future<List<PostModel>> getEvents() async {
+    QuerySnapshot post = await db
+        .collection("posts")
+        .where("type", isEqualTo: "Event")
+        .orderBy("date_post", descending: true)
+        .get();
+    return post.docs.map((e) => PostModel.fromDatabase(e)).toList();
+  }
+
+  Future<List<PostModel>> getTourismes() async {
+    QuerySnapshot post = await db
+        .collection("posts")
+        .where("type", isEqualTo: "Tourisme")
+        .orderBy("date_post", descending: true)
+        .get();
+    return post.docs.map((e) => PostModel.fromDatabase(e)).toList();
+  }
+
+  Future<List<PostModel>> getLoisirs() async {
+    QuerySnapshot post = await db
+        .collection("posts")
+        .where("type", isEqualTo: "Loisir")
+        .orderBy("date_post", descending: true)
+        .get();
+    return post.docs.map((e) => PostModel.fromDatabase(e)).toList();
+  }
+
+  Future<List<PostModel>> getRestaurants() async {
+    QuerySnapshot post = await db
+        .collection("posts")
+        .where("type", isEqualTo: "Restaurant")
+        .orderBy("date_post", descending: true)
+        .get();
+    return post.docs.map((e) => PostModel.fromDatabase(e)).toList();
+  }
+
   Future setVisite(String postId, String userId) async {
     db
         .collection("posts")
