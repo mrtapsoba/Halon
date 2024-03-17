@@ -1,10 +1,11 @@
+import 'package:decouvrir/models/post_model.dart';
 import 'package:decouvrir/views/comment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 
 class OnePubPage extends StatefulWidget {
-  const OnePubPage({super.key});
-
+  const OnePubPage({super.key, this.postModel});
+  final PostModel? postModel;
   @override
   State<OnePubPage> createState() => _OnePubPageState();
 }
@@ -18,6 +19,7 @@ class _OnePubPageState extends State<OnePubPage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width + 60,
             decoration: const BoxDecoration(
+              color: Colors.blue,
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
@@ -52,6 +54,16 @@ class _OnePubPageState extends State<OnePubPage> {
                         child: ListView(
                           controller: scrollController,
                           children: [
+                            Container(
+                              alignment: Alignment.center,
+                              height: 10,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 150),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey,
+                              ),
+                            ),
                             const Text(
                               "Kadel Food",
                               style: TextStyle(
@@ -116,6 +128,8 @@ class _OnePubPageState extends State<OnePubPage> {
                                 "Reduction du menu pour toi !",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
+                              subtitle: const Text(
+                                  "Utiliser le bouton \"J'y suis\" pour en beneficier ...  Cliquer pour voir menu"),
                               children: const [
                                 Text("Panini à 900f au lieu de 1000"),
                                 Text("Chawarma à 900f au lieu de 1000"),
@@ -178,7 +192,10 @@ class _OnePubPageState extends State<OnePubPage> {
                                           ],
                                         ),
                                       ]));
-                                    }))
+                                    })),
+                            const SizedBox(
+                              height: 100,
+                            )
                           ],
                         )),
                   ));

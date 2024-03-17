@@ -95,7 +95,28 @@ class _UserProfilPageState extends State<UserProfilPage> {
                       ),
                       TextButton(
                           onPressed: () {
-                            AuthController().deconnexion();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Notification"),
+                                    content: const Text(
+                                        "Voulez vous vraiment vous deconnecter ?"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Annuler")),
+                                      TextButton(
+                                          onPressed: () {
+                                            AuthController().deconnexion();
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Oui"))
+                                    ],
+                                  );
+                                });
                           },
                           child: const Text("Déconnexion"))
                     ],

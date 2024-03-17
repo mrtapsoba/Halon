@@ -69,7 +69,6 @@ class _AuthPageState extends State<AuthPage> {
               ListTile(
                 leading: IconButton.filledTonal(
                     onPressed: () {
-                      authController.deconnexion();
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.arrow_back)),
@@ -126,95 +125,109 @@ class _AuthPageState extends State<AuthPage> {
                   : FloatingActionButton.extended(
                       elevation: 1,
                       onPressed: () async {
-                        await FirebaseAuth.instance.verifyPhoneNumber(
-                          phoneNumber: '+226${numeroPhone.text}',
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) {
-                            setState(() {
-                              isSending = false;
-                            });
-                            auth.signInWithCredential(credential);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: const Text(
-                                  "Verification automatique réussie"),
-                              backgroundColor: Constantes().mainColor,
-                            ));
-                          },
-                          verificationFailed: (FirebaseAuthException e) {
-                            String error = "Error";
-                            switch (e.code) {
-                              case "network-request-failed":
-                                error = "Aucune connexion internet";
-                                break;
-                              case "invalid-phone-number":
-                                error = "Numéro de telephone incorrect";
-                                break;
-                              default:
-                                error = e.code;
-                                break;
-                            }
-                            setState(() {
-                              isSending = false;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(error),
-                              backgroundColor: Colors.red,
-                            ));
-                          },
-                          codeSent: (String verificationId, int? resendToken) {
-                            setState(() {
-                              isSending = false;
-                            });
-                            showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                      title: const Text("Code OTP"),
-                                      content: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: Colors.grey),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: TextFormField(
-                                            controller: codeOTP,
-                                            keyboardType: TextInputType.number,
-                                            decoration: const InputDecoration(
-                                                hintText:
-                                                    "Entrer le code reçu par sms",
-                                                border: InputBorder.none)),
-                                      ),
-                                      actions: [
-                                        ElevatedButton(
-                                            onPressed: () async {
-                                              PhoneAuthCredential credential =
-                                                  PhoneAuthProvider.credential(
-                                                      verificationId:
-                                                          verificationId,
-                                                      smsCode: codeOTP.text);
-                                              Navigator.pop(context);
+                        if (numeroPhone.text != "") {
+                          setState(() {
+                            isSending = true;
+                          });
+                          await FirebaseAuth.instance.verifyPhoneNumber(
+                            phoneNumber: '+226${numeroPhone.text}',
+                            verificationCompleted:
+                                (PhoneAuthCredential credential) {
+                              setState(() {
+                                isSending = false;
+                              });
+                              auth.signInWithCredential(credential);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text(
+                                    "Verification automatique réussie"),
+                                backgroundColor: Constantes().mainColor,
+                              ));
+                            },
+                            verificationFailed: (FirebaseAuthException e) {
+                              String error = "Error";
+                              switch (e.code) {
+                                case "network-request-failed":
+                                  error = "Aucune connexion internet";
+                                  break;
+                                case "invalid-phone-number":
+                                  error = "Numéro de telephone incorrect";
+                                  break;
+                                default:
+                                  error = e.code;
+                                  break;
+                              }
+                              setState(() {
+                                isSending = false;
+                              });
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(error),
+                                backgroundColor: Colors.red,
+                              ));
+                            },
+                            codeSent:
+                                (String verificationId, int? resendToken) {
+                              setState(() {
+                                isSending = false;
+                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        title: const Text("Code OTP"),
+                                        content: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: TextFormField(
+                                              controller: codeOTP,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: const InputDecoration(
+                                                  hintText:
+                                                      "Entrer le code reçu par sms",
+                                                  border: InputBorder.none)),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                PhoneAuthCredential credential =
+                                                    PhoneAuthProvider
+                                                        .credential(
+                                                            verificationId:
+                                                                verificationId,
+                                                            smsCode:
+                                                                codeOTP.text);
+                                                Navigator.pop(context);
 
-                                              await auth.signInWithCredential(
-                                                  credential);
-                                            },
-                                            child: const Text("Valider"))
-                                      ],
-                                    ));
-                          },
-                          timeout: const Duration(seconds: 120),
-                          codeAutoRetrievalTimeout: (String verificationId) {
-                            // Auto-resolution timed out...
-                            setState(() {
-                              isSending = false;
-                            });
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Vérification automatique échouée'),
-                              backgroundColor: Colors.orange,
-                            ));
-                          },
-                        );
+                                                await auth.signInWithCredential(
+                                                    credential);
+                                              },
+                                              child: const Text("Valider"))
+                                        ],
+                                      ));
+                            },
+                            timeout: const Duration(seconds: 120),
+                            codeAutoRetrievalTimeout: (String verificationId) {
+                              // Auto-resolution timed out...
+                              setState(() {
+                                isSending = false;
+                              });
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content:
+                                    Text('Vérification automatique échouée'),
+                                backgroundColor: Colors.orange,
+                              ));
+                            },
+                          );
+                        } else {
+                          
+                        }
                       },
                       label: Container(
                         alignment: Alignment.center,

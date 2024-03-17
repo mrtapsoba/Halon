@@ -48,7 +48,7 @@ class _IdentityPageState extends State<IdentityPage> {
                   child: IconButton(
                       onPressed: () {}, icon: const Icon(Icons.add_a_photo)),
                 ),
-                const Text("Ajouter une photo\nde profil (facultatif)")
+                const Text("Ajouter une photo\nde profil")
               ],
             )),
             const SizedBox(
@@ -122,13 +122,8 @@ class _IdentityPageState extends State<IdentityPage> {
             ),
             FloatingActionButton.extended(
                 onPressed: () {
-                  userController.setUserInfo(
-                      widget.user.uid,
-                      widget.user.phone,
-                      username.text,
-                      parrainCode.text,
-                      birthday!.millisecondsSinceEpoch,
-                      'image!');
+                  userController.setUserInfo(widget.user.uid, widget.user.phone,
+                      username.text, parrainCode.text, birthday!, 'image!');
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return PrefPage(
                       user: widget.user,
@@ -138,7 +133,7 @@ class _IdentityPageState extends State<IdentityPage> {
                 label: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width - 100,
-                  child: const Text("Suivant",
+                  child: const Text("Enregister et Suivant",
                       style:
                           TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
                 )),

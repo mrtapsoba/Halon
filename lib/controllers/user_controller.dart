@@ -17,15 +17,15 @@ class UserController {
   }
 
   Future setUserInfo(String userId, String userPhone, String userName,
-      String userParrain, int birthday, String userPhoto) async {
+      String userParrain, DateTime birthday, String userPhoto) async {
     db.collection('users').doc(userId).set({
       'userId': userId,
       'phone': userPhone,
       'nom': userName,
       'birthday': birthday,
       'parrain': userParrain,
-      'photo': userPhoto
+      'photo': userPhoto,
+      'last_connect': DateTime.now()
     });
   }
-
 }

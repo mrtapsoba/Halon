@@ -37,7 +37,7 @@ class _PrefPageState extends State<PrefPage> {
                 label: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width - 100,
-                  child: const Text("Enregistrer",
+                  child: const Text("Enregistrer et terminer",
                       style:
                           TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
                 )),

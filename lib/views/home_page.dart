@@ -1,13 +1,15 @@
 import 'package:decouvrir/models/constantes.dart';
+import 'package:decouvrir/models/post_model.dart';
 import 'package:decouvrir/views/auth_page.dart';
 import 'package:decouvrir/views/categorie_page.dart';
 import 'package:decouvrir/views/one_pub_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
+  const HomePage({super.key, this.postModel});
+  final PostModel? postModel;
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -130,31 +132,49 @@ class _HomePageState extends State<HomePage> {
                             const Text("Tourisme")
                           ]),
                           Column(children: [
-                            Card(
-                                child: Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://i.pinimg.com/564x/cc/26/b5/cc26b5a5782a9844a379313f15d115ec.jpg"))),
-                            )),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const CategoriePage(
+                                      categorie: "Loisir",
+                                    );
+                                  }));
+                                },
+                                child: Card(
+                                    child: Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: const DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              "https://i.pinimg.com/564x/cc/26/b5/cc26b5a5782a9844a379313f15d115ec.jpg"))),
+                                ))),
                             const Text("Loisirs")
                           ]),
                           Column(children: [
-                            Card(
-                                child: Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"))),
-                            )),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const CategoriePage(
+                                      categorie: "Restautant",
+                                    );
+                                  }));
+                                },
+                                child: Card(
+                                    child: Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: const DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"))),
+                                ))),
                             const Text("Restaurants")
                           ]),
                         ],
@@ -282,7 +302,34 @@ class _HomePageState extends State<HomePage> {
           ),
         ]),
         floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {}, label: const Text("J'y suis")),
+            onPressed: () {
+              User? auth = FirebaseAuth.instance.currentUser;
+              if (auth != null) {
+                print("Instruction de reduction a faire !!");
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Utilisateur premium"),
+                        content: const Text(
+                            "Pour montrer votre présence chez un partenaire et beneficier de reduction voir meme de gratuité, veuillez vous connecter d'abord"),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const AuthPage();
+                                }));
+                              },
+                              child: const Text("Me connecter")),
+                        ],
+                      );
+                    });
+              }
+            },
+            label: const Text("J'y suis")),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
             onTap: (value) {

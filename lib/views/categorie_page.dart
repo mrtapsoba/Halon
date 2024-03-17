@@ -15,7 +15,7 @@ class _CategoriePageState extends State<CategoriePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Categorie : Evenements"),
+          title: Text("Categorie : ${widget.categorie}"),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.search))
           ],
@@ -94,7 +94,7 @@ class _CategoriePageState extends State<CategoriePage> {
                           ));
                     });
               }
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }));
   }
 }
