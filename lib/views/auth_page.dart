@@ -43,6 +43,7 @@ class _AuthPageState extends State<AuthPage> {
               return UserProfilPage(
                 userModel: UserModel(
                   nom: snapdata[0]['nom'],
+                  imageUrl: snapdata[0]['photo'],
                   age: DateTime.fromMillisecondsSinceEpoch(
                       int.parse(snapdata[0]['birthday'].toString())),
                 ),
@@ -225,9 +226,7 @@ class _AuthPageState extends State<AuthPage> {
                               ));
                             },
                           );
-                        } else {
-                          
-                        }
+                        } else {}
                       },
                       label: Container(
                         alignment: Alignment.center,

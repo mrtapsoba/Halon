@@ -12,10 +12,20 @@ class UserProfilPage extends StatefulWidget {
 }
 
 class _UserProfilPageState extends State<UserProfilPage> {
+  TextEditingController username = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      username.text = widget.userModel.nom!;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Salut, ${widget.userModel.nom}")),
+        appBar: AppBar(title: Text("Salut, $username")),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             decoration: BoxDecoration(
@@ -37,8 +47,8 @@ class _UserProfilPageState extends State<UserProfilPage> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image:
-                                          NetworkImage(Constantes().imagetest)),
+                                      image: NetworkImage(
+                                          widget.userModel.imageUrl!)),
                                   color: Constantes().mainColor,
                                   borderRadius: BorderRadius.circular(62.5)),
                             ),
@@ -49,12 +59,24 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Text("${widget.userModel.nom}"),
+                                    Text("$username"),
                                     Text(
                                         "${DateTime.now().year - widget.userModel.age.year} ans"),
-                                    const Text("203 points"),
+                                    Text(widget.userModel.userPoints!),
                                     FilledButton.tonal(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      "Modifier mon profil"),
+                                                  content: TextFormField(
+                                                    controller: username,
+                                                  ),
+                                                );
+                                              });
+                                        },
                                         child: const Text("Modifier"))
                                   ],
                                 ))

@@ -16,16 +16,20 @@ class UserController {
     });
   }
 
-  Future setUserInfo(String userId, String userPhone, String userName,
+  Future setUserInfo(String userId, String userIdentifiant, String userName,
       String userParrain, DateTime birthday, String userPhoto) async {
-    db.collection('users').doc(userId).set({
+    db.collection('users').doc(userId).update({
       'userId': userId,
-      'phone': userPhone,
+      'identifiant': userIdentifiant,
       'nom': userName,
       'birthday': birthday,
       'parrain': userParrain,
       'photo': userPhoto,
       'last_connect': DateTime.now()
     });
+  }
+
+  Future updateUserInfo(String userId, String variable, dynamic data) async {
+    db.collection('users').doc(userId).update({variable: data});
   }
 }

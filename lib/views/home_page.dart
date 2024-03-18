@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool searchbar = false;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  User? auth = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +304,6 @@ class _HomePageState extends State<HomePage> {
         ]),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              User? auth = FirebaseAuth.instance.currentUser;
               if (auth != null) {
                 print("Instruction de reduction a faire !!");
               } else {

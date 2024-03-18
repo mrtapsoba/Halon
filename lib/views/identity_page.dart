@@ -1,6 +1,7 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/views/pref_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 
@@ -17,8 +18,21 @@ class _IdentityPageState extends State<IdentityPage> {
   TextEditingController username = TextEditingController();
   TextEditingController parrainCode = TextEditingController();
   String? image;
+  String? imageUrl;
   DateTime? birthday;
   UserController userController = UserController();
+  User? auth = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      imageUrl = auth!.photoURL;
+      username.text = auth!.displayName!;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +58,9 @@ class _IdentityPageState extends State<IdentityPage> {
                   width: 100,
                   decoration: BoxDecoration(
                       color: Colors.white,
+                      image: (imageUrl != null)
+                          ? DecorationImage(image: NetworkImage(imageUrl!))
+                          : DecorationImage(image: AssetImage(image!)),
                       borderRadius: BorderRadius.circular(15)),
                   child: IconButton(
                       onPressed: () {}, icon: const Icon(Icons.add_a_photo)),
@@ -122,13 +139,32 @@ class _IdentityPageState extends State<IdentityPage> {
             ),
             FloatingActionButton.extended(
                 onPressed: () {
-                  userController.setUserInfo(widget.user.uid, widget.user.phone,
-                      username.text, parrainCode.text, birthday!, 'image!');
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return PrefPage(
-                      user: widget.user,
-                    );
-                  }));
+                  if (username.text != "" && birthday != null) {
+                    auth!.updateDisplayName(username.text);
+                    userController.setUserInfo(
+                        auth!.uid,
+                        (auth!.phoneNumber != null)
+                            ? auth!.phoneNumber!
+                            : auth!.email!,
+                        username.text,
+                        parrainCode.text,
+                        birthday!,
+                        imageUrl!);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return PrefPage(
+                        user: widget.user,
+                      );
+                    }));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                        "Veuillez remplir correctement le nom et la date de naissance",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      backgroundColor: Colors.red,
+                    ));
+                  }
                 },
                 label: Container(
                   alignment: Alignment.center,
