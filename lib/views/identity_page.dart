@@ -17,8 +17,8 @@ class _IdentityPageState extends State<IdentityPage> {
   AuthController authController = AuthController();
   TextEditingController username = TextEditingController();
   TextEditingController parrainCode = TextEditingController();
-  String? image;
-  String? imageUrl;
+  String image = "";
+  String imageUrl = "";
   DateTime? birthday;
   UserController userController = UserController();
   User? auth = FirebaseAuth.instance.currentUser;
@@ -27,7 +27,7 @@ class _IdentityPageState extends State<IdentityPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      imageUrl = auth!.photoURL;
+      imageUrl = auth!.photoURL!;
       username.text = auth!.displayName!;
     });
     super.initState();
@@ -58,9 +58,9 @@ class _IdentityPageState extends State<IdentityPage> {
                   width: 100,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      image: (imageUrl != null)
-                          ? DecorationImage(image: NetworkImage(imageUrl!))
-                          : DecorationImage(image: AssetImage(image!)),
+                      image: (imageUrl != "")
+                          ? DecorationImage(image: NetworkImage(imageUrl))
+                          : DecorationImage(image: AssetImage(image)),
                       borderRadius: BorderRadius.circular(15)),
                   child: IconButton(
                       onPressed: () {}, icon: const Icon(Icons.add_a_photo)),
@@ -141,21 +141,21 @@ class _IdentityPageState extends State<IdentityPage> {
                 onPressed: () {
                   if (username.text != "" && birthday != null) {
                     auth!.updateDisplayName(username.text);
-                    userController.setUserInfo(
-                        auth!.uid,
-                        (auth!.phoneNumber != null)
-                            ? auth!.phoneNumber!
-                            : auth!.email!,
-                        username.text,
-                        parrainCode.text,
-                        birthday!,
-                        imageUrl!);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return PrefPage(
-                        user: widget.user,
-                      );
-                    }));
+                    String userIdentifiant = "";
+                    if (auth!.phoneNumber != null) {
+                      userIdentifiant = auth!.phoneNumber!;
+                    } else if (auth!.email != null) {
+                      userIdentifiant = auth!.email!;
+                    }
+                    userController
+                        .setUserInfo(auth!.uid, userIdentifiant, username.text,
+                            parrainCode.text, birthday!, imageUrl)
+                        .then((value) => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return PrefPage(
+                                user: widget.user,
+                              );
+                            })));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(

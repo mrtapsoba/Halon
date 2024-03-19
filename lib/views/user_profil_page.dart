@@ -1,10 +1,13 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 
 class UserProfilPage extends StatefulWidget {
-  const UserProfilPage({super.key, required this.userModel});
+  const UserProfilPage(
+      {super.key, required this.userId, required this.userModel});
+  final String userId;
   final UserModel userModel;
 
   @override
@@ -13,6 +16,7 @@ class UserProfilPage extends StatefulWidget {
 
 class _UserProfilPageState extends State<UserProfilPage> {
   TextEditingController username = TextEditingController();
+  UserController userController = UserController();
   @override
   void initState() {
     // TODO: implement initState
@@ -25,7 +29,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Salut, $username")),
+        appBar: AppBar(title: Text("Salut, ${username.text}")),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             decoration: BoxDecoration(
@@ -42,15 +46,32 @@ class _UserProfilPageState extends State<UserProfilPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Container(
+                              alignment: Alignment.bottomCenter,
                               height: 150,
                               width: 125,
                               decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          widget.userModel.imageUrl!)),
+                                  image: (widget.userModel.imageUrl != null)
+                                      ? DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              widget.userModel.imageUrl!))
+                                      : const DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              "widget.userModel.imageUrl!")),
                                   color: Constantes().mainColor,
                                   borderRadius: BorderRadius.circular(62.5)),
+                              child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const AlertDialog(
+                                            title: Text("Photo de profil"),
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(Icons.add_a_photo)),
                             ),
                             Container(
                                 margin:
@@ -59,10 +80,16 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Text("$username"),
                                     Text(
-                                        "${DateTime.now().year - widget.userModel.age.year} ans"),
-                                    Text(widget.userModel.userPoints!),
+                                      username.text,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        "Age : ${DateTime.now().year - widget.userModel.age.year} ans"),
+                                    Text(widget.userModel.userPoints != null
+                                        ? "Fidélité : ${widget.userModel.userPoints!} points"
+                                        : "Fidélité : 00 points"),
                                     FilledButton.tonal(
                                         onPressed: () {
                                           showDialog(
@@ -74,6 +101,21 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                                   content: TextFormField(
                                                     controller: username,
                                                   ),
+                                                  actions: [
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          userController
+                                                              .updateUserInfo(
+                                                                  widget.userId,
+                                                                  "nom",
+                                                                  username
+                                                                      .text);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            "Enregistrer"))
+                                                  ],
                                                 );
                                               });
                                         },
@@ -88,10 +130,9 @@ class _UserProfilPageState extends State<UserProfilPage> {
                   width: MediaQuery.of(context).size.width - 50,
                   child: Column(
                     children: [
-                      FloatingActionButton.extended(
-                          elevation: 1,
+                      ElevatedButton(
                           onPressed: () {},
-                          label: const Text(
+                          child: const Text(
                               "Inviter des amis et gagner des points")),
                       const ListTile(
                         title: Text("Notifications"),
@@ -146,6 +187,12 @@ class _UserProfilPageState extends State<UserProfilPage> {
                 ))
               ],
             )),
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              print("Instruction de reduction a faire !!");
+            },
+            label: const Text("J'y suis")),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: 1,
             onTap: (value) {

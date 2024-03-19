@@ -41,11 +41,12 @@ class _AuthPageState extends State<AuthPage> {
                 return IdentityPage(user: user);
               }
               return UserProfilPage(
+                userId: user.uid,
                 userModel: UserModel(
                   nom: snapdata[0]['nom'],
                   imageUrl: snapdata[0]['photo'],
                   age: DateTime.fromMillisecondsSinceEpoch(
-                      int.parse(snapdata[0]['birthday'].toString())),
+                      snapdata[0]['birthday'].millisecondsSinceEpoch),
                 ),
               );
             }
