@@ -44,16 +44,16 @@ class _HomePageState extends State<HomePage> {
                             BoxShadow(
                                 color: Constantes().mainColor, blurRadius: 2)
                           ],
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(20)),
                       child: const Text("Ou voulez vous allez aujourd'hui ?"))
                   : ListView(children: [
                       Center(
-                          child: Text("Bienvenue à ${Constantes().appName}",
+                          child: Text("\nBienvenue à ${Constantes().appName}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                   color: Colors.white))),
-                      const SizedBox(height: 110),
+                      const SizedBox(height: 90),
                       Container(
                           height: 60,
                           alignment: Alignment.center,
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Constantes().mainColor,
                                     blurRadius: 2)
                               ],
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(20)),
                           child:
                               const Text("Ou voulez vous allez aujourd'hui ?")),
                       const SizedBox(height: 5),

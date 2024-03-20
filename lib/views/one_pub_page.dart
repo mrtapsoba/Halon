@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decouvrir/models/post_model.dart';
 import 'package:decouvrir/views/comment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class OnePubPage extends StatefulWidget {
   const OnePubPage({super.key, this.postModel});
@@ -16,15 +18,32 @@ class _OnePubPageState extends State<OnePubPage> {
     return Scaffold(
       body: Stack(children: [
         Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width + 60,
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg")),
-            )),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 2,
+          decoration: const BoxDecoration(
+            color: Colors.blue,
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                    "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg")),
+          ),
+          child: ImageSlideshow(isLoop: true, children: [
+            Container(
+              width: MediaQuery.of(context).size.width - 10,
+              decoration: const BoxDecoration(color: Colors.blue),
+              child: CachedNetworkImage(
+                  imageUrl:
+                      "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg"),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width - 10,
+              decoration: const BoxDecoration(color: Colors.blue),
+              child: CachedNetworkImage(
+                  imageUrl:
+                      "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"),
+            )
+          ]),
+        ),
         Column(
           children: [
             const SizedBox(
@@ -150,15 +169,16 @@ class _OnePubPageState extends State<OnePubPage> {
                                       return Card(
                                           child: Column(children: [
                                         Container(
-                                            width: 200,
-                                            height: 200,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                image: const DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg")))),
+                                          width: 200,
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"),
+                                        ),
                                         const Text(
                                           "RifkaLand",
                                           style: TextStyle(

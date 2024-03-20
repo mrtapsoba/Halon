@@ -27,8 +27,12 @@ class _IdentityPageState extends State<IdentityPage> {
   void initState() {
     // TODO: implement initState
     setState(() {
-      imageUrl = auth!.photoURL!;
-      username.text = auth!.displayName!;
+      if (auth!.photoURL != null) {
+        imageUrl = auth!.photoURL!;
+      }
+      if (auth!.displayName != null) {
+        username.text = auth!.displayName!;
+      }
     });
     super.initState();
   }

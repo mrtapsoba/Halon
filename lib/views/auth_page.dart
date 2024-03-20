@@ -247,22 +247,19 @@ class _AuthPageState extends State<AuthPage> {
               const SizedBox(
                 height: 10,
               ),
-              /* Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  */
               ElevatedButton.icon(
                 onPressed: () async {
-                  await authController.signInWithGoogle();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text(
-                      "Connexion via votre compte google réussie",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    backgroundColor: Constantes().mainColor,
-                  ));
+                  await authController.signInWithGoogle().then((value) =>
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text(
+                          "Connexion via votre compte google réussie",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        backgroundColor: Constantes().mainColor,
+                      )));
                 },
                 icon: CircleAvatar(
+                    backgroundColor: Colors.white,
                     child: Image.network(
                         "https://i.pinimg.com/564x/60/41/99/604199df880fb029291ddd7c382e828b.jpg")),
                 label: const Text(" continuer avec un Compte Google"),
