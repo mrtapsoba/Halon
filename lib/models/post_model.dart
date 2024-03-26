@@ -14,10 +14,10 @@ class PostModel {
   Timestamp? dateDebut;
   Timestamp? dateFin;
   List<dynamic>? categories;
-  List<dynamic>? imageUrl;
+  List<dynamic> imageUrl;
   int? ageMin;
   int? commentNbr;
-  int? noteMoy;
+  double? noteMoy;
   int? visiteNbr;
   int? poidsForUser;
   Timestamp? datePost;
@@ -36,7 +36,7 @@ class PostModel {
       this.dateDebut,
       this.dateFin,
       this.categories,
-      this.imageUrl,
+      required this.imageUrl,
       this.ageMin,
       this.commentNbr,
       this.noteMoy,
@@ -64,7 +64,7 @@ class PostModel {
       imageUrl: data['image_url'],
       ageMin: data['age_min'] as int,
       commentNbr: data['comment_nbr'] as int,
-      noteMoy: data['note_moy'] as int,
+      noteMoy: data['note_moy'] as double,
       visiteNbr: data['visite_nbr'] as int,
     );
   }

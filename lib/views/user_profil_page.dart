@@ -19,7 +19,6 @@ class _UserProfilPageState extends State<UserProfilPage> {
   UserController userController = UserController();
   @override
   void initState() {
-    // TODO: implement initState
     setState(() {
       username.text = widget.userModel.nom!;
     });

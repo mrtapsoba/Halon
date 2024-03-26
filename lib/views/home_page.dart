@@ -1,3 +1,4 @@
+import 'package:decouvrir/controllers/post_controller.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/models/post_model.dart';
 import 'package:decouvrir/views/auth_page.dart';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool searchbar = false;
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   User? auth = FirebaseAuth.instance.currentUser;
+  PostController postController = PostController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                       categorie: "Event",
                                     );
                                   }));
-                                  await analytics.logBeginCheckout(
+                                  /*await analytics.logBeginCheckout(
                                       value: 10.0,
                                       currency: 'USD',
                                       items: [
@@ -94,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                             itemId: 'Event',
                                             price: 10.0),
                                       ],
-                                      coupon: '10PERCENTOFF');
+                                      coupon: '10PERCENTOFF');*/
                                 },
                                 child: Card(
                                     child: Container(
@@ -161,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return const CategoriePage(
-                                      categorie: "Restautant",
+                                      categorie: "Restaurant",
                                     );
                                   }));
                                 },
@@ -217,87 +219,134 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
-                              child: ListView.builder(
-                                  controller: scrollController,
-                                  itemCount: 12,
-                                  itemBuilder: (context2, index) {
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return const OnePubPage();
-                                          }));
-                                        },
-                                        child: Card(
-                                          child: Container(
-                                            alignment: Alignment.bottomCenter,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                30,
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                image: const DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg"))),
-                                            child: Container(
-                                                height: 100,
-                                                margin:
-                                                    const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white60,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        const Text(
-                                                          "Kadel Food",
-                                                          style: TextStyle(
-                                                              fontSize: 25,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w900,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        TextButton.icon(
-                                                            onPressed: () {},
-                                                            icon: const Icon(
-                                                              Icons.star,
-                                                              color:
-                                                                  Colors.yellow,
-                                                              size: 35,
+                              child: FutureBuilder(
+                                  future: postController.getPost(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      print(snapshot.error);
+                                    }
+                                    if (snapshot.hasData) {
+                                      List<PostModel> catPosts =
+                                          snapshot.requireData;
+                                      if (catPosts.isEmpty) {
+                                        return const Text("Empty");
+                                      }
+                                      return ListView.builder(
+                                          controller: scrollController,
+                                          itemCount: catPosts.length,
+                                          itemBuilder: (context2, index) {
+                                            return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                    return OnePubPage(
+                                                      postModel:
+                                                          catPosts[index],
+                                                    );
+                                                  }));
+                                                },
+                                                child: Card(
+                                                  child: Container(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            30,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                catPosts[index]
+                                                                        .imageUrl[
+                                                                    0]))),
+                                                    child: Container(
+                                                        height: 100,
+                                                        margin: const EdgeInsets
+                                                            .all(10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 20),
+                                                        decoration: BoxDecoration(
+                                                            color:
+                                                                Colors.white70,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                        child: Column(
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              children: [
+                                                                Text(
+                                                                  catPosts[
+                                                                          index]
+                                                                      .nom!,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          25,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                TextButton.icon(
+                                                                    onPressed:
+                                                                        () {},
+                                                                    icon:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .star,
+                                                                      color: Colors
+                                                                          .yellow,
+                                                                      size: 35,
+                                                                    ),
+                                                                    label: Text(
+                                                                      "${catPosts[index].noteMoy!}",
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              20),
+                                                                    )),
+                                                              ],
                                                             ),
-                                                            label: const Text(
-                                                              "4,5",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
+                                                            Text(
+                                                              catPosts[index]
+                                                                  .description!,
+                                                              maxLines: 2,
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
-                                                                  fontSize: 20),
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    const Text(
-                                                        "Petite description du lieu"),
-                                                  ],
-                                                )),
-                                          ),
-                                        ));
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .italic),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                ));
+                                          });
+                                    }
+                                    return const Center(
+                                        child: CircularProgressIndicator());
                                   }))));
                 }),
           ),

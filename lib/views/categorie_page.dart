@@ -29,7 +29,29 @@ class _CategoriePageState extends State<CategoriePage> {
               if (snapshot.hasData) {
                 List<PostModel> catPosts = snapshot.requireData;
                 if (catPosts.isEmpty) {
-                  return const Text("Empty");
+                  return Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(50),
+                        child: const Text(
+                          "Désolé nous n'avons pas trouvez d'evenements correspondants",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      Image.network(
+                          "https://i.pinimg.com/564x/c9/22/68/c92268d92cf2dbf96e3195683d9e14fb.jpg"),
+                      const Text(
+                        "Veuillez faire une nouvelle recherche",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      )
+                    ],
+                  );
                 }
                 return ListView.builder(
                     itemCount: catPosts.length,
@@ -38,7 +60,9 @@ class _CategoriePageState extends State<CategoriePage> {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return const OnePubPage();
+                              return OnePubPage(
+                                postModel: catPosts[index],
+                              );
                             }));
                           },
                           child: Card(
@@ -51,12 +75,14 @@ class _CategoriePageState extends State<CategoriePage> {
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                          catPosts[index].imageUrl![0]))),
+                                          catPosts[index].imageUrl[0]))),
                               child: Container(
                                   height: 100,
                                   margin: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   decoration: BoxDecoration(
-                                      color: Colors.white60,
+                                      color: Colors.white70,
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Column(
                                     children: [
@@ -87,7 +113,13 @@ class _CategoriePageState extends State<CategoriePage> {
                                               )),
                                         ],
                                       ),
-                                      Text(catPosts[index].description!),
+                                      Text(
+                                        catPosts[index].description!,
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic),
+                                      ),
                                     ],
                                   )),
                             ),

@@ -1,13 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decouvrir/models/post_model.dart';
 import 'package:decouvrir/views/comment_page.dart';
+import 'package:decouvrir/views/container/container_list.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class OnePubPage extends StatefulWidget {
-  const OnePubPage({super.key, this.postModel});
-  final PostModel? postModel;
+  const OnePubPage({super.key, required this.postModel});
+  final PostModel postModel;
   @override
   State<OnePubPage> createState() => _OnePubPageState();
 }
@@ -27,22 +27,7 @@ class _OnePubPageState extends State<OnePubPage> {
                 image: NetworkImage(
                     "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg")),
           ),
-          child: ImageSlideshow(isLoop: true, children: [
-            Container(
-              width: MediaQuery.of(context).size.width - 10,
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: CachedNetworkImage(
-                  imageUrl:
-                      "https://i.pinimg.com/564x/05/5e/4e/055e4e82d548029f91d96c30499341fb.jpg"),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width - 10,
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: CachedNetworkImage(
-                  imageUrl:
-                      "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"),
-            )
-          ]),
+          child: ContainerList(widget.postModel.imageUrl),
         ),
         Column(
           children: [
@@ -83,28 +68,29 @@ class _OnePubPageState extends State<OnePubPage> {
                                 color: Colors.grey,
                               ),
                             ),
-                            const Text(
-                              "Kadel Food",
-                              style: TextStyle(
+                            Text(
+                              "${widget.postModel.nom}",
+                              style: const TextStyle(
                                   fontSize: 25, fontWeight: FontWeight.bold),
                             ),
-                            const Text(
-                                "Les catégories de l'évenement ou du lieu"),
-                            const Text(
-                                "Petite description du lieu Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum"),
-                            const Text(
-                              "Adresse : Adresse complete du lieu",
-                              style: TextStyle(fontStyle: FontStyle.italic),
+                            Text("Catégories : ${widget.postModel.categories}"),
+                            Text("${widget.postModel.description}"),
+                            Text(
+                              "Adresse : ${widget.postModel.adresse}",
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
                             ),
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text("Du 18 Dec 2023",
-                                    style: TextStyle(
+                                Text(
+                                    "Du ${widget.postModel.dateDebut?.toDate().day} / ${widget.postModel.dateDebut?.toDate().month} / ${widget.postModel.dateDebut?.toDate().year}",
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
-                                Text("Au 22 Dec 2023",
-                                    style: TextStyle(
+                                Text(
+                                    "Au ${widget.postModel.dateFin?.toDate().day} / ${widget.postModel.dateFin?.toDate().month} / ${widget.postModel.dateFin?.toDate().year}",
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
                               ],
@@ -114,18 +100,20 @@ class _OnePubPageState extends State<OnePubPage> {
                               children: [
                                 ElevatedButton(
                                     onPressed: () {},
-                                    child: const Text("Ouverture: 10h")),
+                                    child: Text(
+                                        "Ouverture: ${widget.postModel.ouverture}")),
                                 ElevatedButton(
                                     onPressed: () {},
-                                    child: const Text(
-                                      "Fermeture: 22h",
-                                      style: TextStyle(color: Colors.orange),
+                                    child: Text(
+                                      "Fermeture: ${widget.postModel.fermeture}",
+                                      style:
+                                          const TextStyle(color: Colors.orange),
                                     )),
                               ],
                             ),
-                            const Text(
-                              "Entrée : Gratuite",
-                              style: TextStyle(
+                            Text(
+                              "Entrée : ${widget.postModel.entree != 0 ? widget.postModel?.entree : 'Gratuite'}",
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             /*FloatingActionButton.extended(
@@ -172,12 +160,13 @@ class _OnePubPageState extends State<OnePubPage> {
                                           width: 200,
                                           height: 200,
                                           decoration: BoxDecoration(
+                                            image: const DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg")),
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          child: CachedNetworkImage(
-                                              imageUrl:
-                                                  "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg"),
                                         ),
                                         const Text(
                                           "RifkaLand",
