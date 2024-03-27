@@ -3,7 +3,6 @@ import 'package:decouvrir/views/comment_page.dart';
 import 'package:decouvrir/views/container/container_list.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class OnePubPage extends StatefulWidget {
   const OnePubPage({super.key, required this.postModel});
@@ -112,7 +111,7 @@ class _OnePubPageState extends State<OnePubPage> {
                               ],
                             ),
                             Text(
-                              "Entrée : ${widget.postModel.entree != 0 ? widget.postModel?.entree : 'Gratuite'}",
+                              "Entrée : ${widget.postModel.entree != 0 ? widget.postModel.entree : 'Gratuite'}",
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
