@@ -17,10 +17,11 @@ class PostModel {
   List<dynamic> imageUrl;
   int? ageMin;
   int? commentNbr;
-  double? noteMoy;
+  int? noteMoy;
   int? visiteNbr;
   int? poidsForUser;
   Timestamp? datePost;
+  String? menus;
 
   PostModel(
       {required this.id,
@@ -42,30 +43,31 @@ class PostModel {
       this.noteMoy,
       this.poidsForUser,
       this.visiteNbr,
-      this.datePost});
+      this.datePost,
+      this.menus});
 
   factory PostModel.fromDatabase(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
     return PostModel(
-      id: snapshot.id,
-      type: data['type'],
-      nom: data['nom'],
-      description: data['description'],
-      adresse: data['adresse'],
-      mapUrl: data['map_url'],
-      entree: data['entree'] as int,
-      ouverture: data['ouverture'],
-      fermeture: data['fermeture'],
-      dateDebut: data['date_debut'],
-      dateFin: data['date_fin'],
-      datePost: data['date_post'],
-      categories: data['categories'],
-      imageUrl: data['image_url'],
-      ageMin: data['age_min'] as int,
-      commentNbr: data['comment_nbr'] as int,
-      noteMoy: data['note_moy'] as double,
-      visiteNbr: data['visite_nbr'] as int,
-    );
+        id: snapshot.id,
+        type: data['type'],
+        nom: data['nom'],
+        description: data['description'],
+        adresse: data['adresse'],
+        mapUrl: data['map_url'],
+        entree: data['entree'] as int,
+        ouverture: data['ouverture'],
+        fermeture: data['fermeture'],
+        dateDebut: data['date_debut'],
+        dateFin: data['date_fin'],
+        datePost: data['date_post'],
+        categories: data['categories'],
+        imageUrl: data['image_url'],
+        ageMin: data['age_min'] as int,
+        commentNbr: data['comment_nbr'] as int,
+        noteMoy: data['note_moy'] as int,
+        visiteNbr: data['visite_nbr'] as int,
+        menus: data['menus']);
   }
 }

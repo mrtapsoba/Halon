@@ -18,12 +18,6 @@ class UserController {
 
   Future setUserInfo(String userId, String userIdentifiant, String userName,
       String userParrain, DateTime birthday, String userPhoto) async {
-    print(userId);
-    print(userIdentifiant);
-    print(userName);
-    print(birthday);
-    print(userParrain);
-    print(userPhoto);
     db.collection('users').doc(userId).set({
       'userId': userId,
       'identifiant': userIdentifiant,

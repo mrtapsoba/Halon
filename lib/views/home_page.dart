@@ -310,9 +310,9 @@ class _HomePageState extends State<HomePage> {
                                                                     icon:
                                                                         const Icon(
                                                                       Icons
-                                                                          .star,
+                                                                          .favorite,
                                                                       color: Colors
-                                                                          .yellow,
+                                                                          .red,
                                                                       size: 35,
                                                                     ),
                                                                     label: Text(
@@ -378,7 +378,8 @@ class _HomePageState extends State<HomePage> {
                     });
               }
             },
-            label: const Text("J'y suis")),
+            icon: const Icon(Icons.add),
+            label: const Text("Ajouter")),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
             onTap: (value) {

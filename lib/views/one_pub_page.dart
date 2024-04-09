@@ -1,5 +1,5 @@
 import 'package:decouvrir/models/post_model.dart';
-import 'package:decouvrir/views/comment_page.dart';
+//import 'package:decouvrir/views/comment_page.dart';
 import 'package:decouvrir/views/container/container_list.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
@@ -83,12 +83,16 @@ class _OnePubPageState extends State<OnePubPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                    "Du ${widget.postModel.dateDebut?.toDate().day} / ${widget.postModel.dateDebut?.toDate().month} / ${widget.postModel.dateDebut?.toDate().year}",
+                                    widget.postModel.dateDebut != null
+                                        ? "Debut ${widget.postModel.dateDebut?.toDate().day} / ${widget.postModel.dateDebut?.toDate().month} / ${widget.postModel.dateDebut?.toDate().year}"
+                                        : "",
                                     style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
                                 Text(
-                                    "Au ${widget.postModel.dateFin?.toDate().day} / ${widget.postModel.dateFin?.toDate().month} / ${widget.postModel.dateFin?.toDate().year}",
+                                    widget.postModel.dateFin != null
+                                        ? "Fin ${widget.postModel.dateFin?.toDate().day} / ${widget.postModel.dateFin?.toDate().month} / ${widget.postModel.dateFin?.toDate().year}"
+                                        : "",
                                     style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
@@ -115,17 +119,6 @@ class _OnePubPageState extends State<OnePubPage> {
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            /*FloatingActionButton.extended(
-                                elevation: 1,
-                                onPressed: () {},
-                                label: Container(
-                                    alignment: Alignment.center,
-                                    width:
-                                        MediaQuery.of(context).size.width - 100,
-                                    child: const Text("Planifier la sortie",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 20)))),*/
                             ExpansionTile(
                               leading: const Icon(Icons.discount),
                               backgroundColor:
@@ -134,12 +127,9 @@ class _OnePubPageState extends State<OnePubPage> {
                                 "Reduction du menu pour toi !",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              subtitle: const Text(
-                                  "Utiliser le bouton \"J'y suis\" pour en beneficier ...  Cliquer pour voir menu"),
-                              children: const [
-                                Text("Panini à 900f au lieu de 1000"),
-                                Text("Chawarma à 900f au lieu de 1000"),
-                                Text("Gapal à 400 au lieu de 500")
+                              subtitle: const Text("Cliquer pour voir menu"),
+                              children: [
+                                Text("${widget.postModel.menus}"),
                               ],
                             ),
                             const SizedBox(height: 20),
@@ -150,7 +140,7 @@ class _OnePubPageState extends State<OnePubPage> {
                             SizedBox(
                                 height: 290,
                                 child: ListView.builder(
-                                    itemCount: 8,
+                                    itemCount: 3,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       return Card(
@@ -177,21 +167,20 @@ class _OnePubPageState extends State<OnePubPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            Text(
-                                              "Ouvert",
+                                            const Text(
+                                              "A venir   ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color:
-                                                      Constantes().mainColor),
+                                                  color: Colors.grey),
                                             ),
                                             TextButton.icon(
                                                 onPressed: () {},
                                                 icon: const Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
+                                                  Icons.favorite_border,
+                                                  color: Colors.red,
                                                 ),
                                                 label: const Text(
-                                                  "4,5",
+                                                  "45",
                                                   style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight: FontWeight.bold,
@@ -218,7 +207,7 @@ class _OnePubPageState extends State<OnePubPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "Ouvert",
+                      "En cours",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
@@ -227,18 +216,18 @@ class _OnePubPageState extends State<OnePubPage> {
                     TextButton.icon(
                         onPressed: () {},
                         icon: const Icon(
-                          Icons.star,
-                          color: Colors.yellow,
+                          Icons.favorite,
+                          color: Colors.red,
                           size: 35,
                         ),
-                        label: const Text(
-                          "4,5",
-                          style: TextStyle(
+                        label: Text(
+                          "${widget.postModel.noteMoy}",
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
                               fontSize: 20),
                         )),
-                    TextButton.icon(
+                    /*TextButton.icon(
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
@@ -253,7 +242,7 @@ class _OnePubPageState extends State<OnePubPage> {
                           "23 commentaires",
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold),
-                        )),
+                        )),*/
                   ],
                 ),
               ])),

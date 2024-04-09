@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/views/pref_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
+import 'package:image_picker/image_picker.dart';
 
 class IdentityPage extends StatefulWidget {
   const IdentityPage({super.key, required this.user});
@@ -17,11 +20,12 @@ class _IdentityPageState extends State<IdentityPage> {
   AuthController authController = AuthController();
   TextEditingController username = TextEditingController();
   TextEditingController parrainCode = TextEditingController();
-  String image = "";
   String imageUrl = "";
   DateTime? birthday;
   UserController userController = UserController();
   User? auth = FirebaseAuth.instance.currentUser;
+
+  File? _selectedImage;
 
   @override
   void initState() {
@@ -64,10 +68,13 @@ class _IdentityPageState extends State<IdentityPage> {
                       color: Colors.white,
                       image: (imageUrl != "")
                           ? DecorationImage(image: NetworkImage(imageUrl))
-                          : DecorationImage(image: AssetImage(image)),
+                          : DecorationImage(image: FileImage(_selectedImage!)),
                       borderRadius: BorderRadius.circular(15)),
                   child: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.add_a_photo)),
+                      onPressed: () {
+                        _pickImageFromGallery();
+                      },
+                      icon: const Icon(Icons.add_a_photo)),
                 ),
                 const Text("Ajouter une photo\nde profil")
               ],
@@ -179,5 +186,14 @@ class _IdentityPageState extends State<IdentityPage> {
                 )),
           ]),
         ));
+  }
+
+  Future _pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+    });
   }
 }

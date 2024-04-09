@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserProfilPage extends StatefulWidget {
   const UserProfilPage(
@@ -21,21 +24,25 @@ class _UserProfilPageState extends State<UserProfilPage> {
   void initState() {
     setState(() {
       username.text = widget.userModel.nom!;
+      birthday = widget.userModel.age;
     });
     super.initState();
   }
+
+  File? _selectedImage;
+  DateTime? birthday;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Salut, ${username.text}")),
         body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(Constantes().imagetest))),
-            child: Column(
+            child: ListView(
               children: [
                 Card(
                     child: SizedBox(
@@ -61,14 +68,28 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                   color: Constantes().mainColor,
                                   borderRadius: BorderRadius.circular(62.5)),
                               child: IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const AlertDialog(
-                                            title: Text("Photo de profil"),
-                                          );
-                                        });
+                                  onPressed: () async {
+                                    await _pickImageFromGallery();
+                                    if (_selectedImage != null) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text("Photo de profil"),
+                                              content: _selectedImage != null
+                                                  ? Image.file(_selectedImage!)
+                                                  : const Text(
+                                                      "Aucune photo selectionnée"),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                        "Enregistrer"))
+                                              ],
+                                            );
+                                          });
+                                    }
                                   },
                                   icon: const Icon(Icons.add_a_photo)),
                             ),
@@ -94,28 +115,75 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return AlertDialog(
-                                                  title: const Text(
-                                                      "Modifier mon profil"),
-                                                  content: TextFormField(
-                                                    controller: username,
-                                                  ),
-                                                  actions: [
-                                                    ElevatedButton(
-                                                        onPressed: () {
-                                                          userController
-                                                              .updateUserInfo(
-                                                                  widget.userId,
-                                                                  "nom",
-                                                                  username
-                                                                      .text);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Text(
-                                                            "Enregistrer"))
-                                                  ],
-                                                );
+                                                return StatefulBuilder(builder:
+                                                    (context, setState) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        "Modifier mon profil"),
+                                                    content: SizedBox(
+                                                      height: 120,
+                                                      child: Column(
+                                                        children: [
+                                                          TextFormField(
+                                                            controller:
+                                                                username,
+                                                          ),
+                                                          ListTile(
+                                                            title: Text(birthday !=
+                                                                    null
+                                                                ? birthday
+                                                                    .toString()
+                                                                : "Date de naissance"),
+                                                            trailing:
+                                                                const Icon(Icons
+                                                                    .calendar_month),
+                                                            onTap: () {
+                                                              showDatePicker(
+                                                                context:
+                                                                    context,
+                                                                initialDate:
+                                                                    birthday,
+                                                                firstDate:
+                                                                    DateTime(
+                                                                        1961),
+                                                                lastDate:
+                                                                    DateTime
+                                                                        .now(),
+                                                              ).then((value) {
+                                                                setState(() {
+                                                                  birthday =
+                                                                      value;
+                                                                });
+                                                              });
+                                                            },
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            userController
+                                                                .updateUserInfo(
+                                                                    widget
+                                                                        .userId,
+                                                                    "nom",
+                                                                    username
+                                                                        .text);
+                                                            userController
+                                                                .updateUserInfo(
+                                                                    widget
+                                                                        .userId,
+                                                                    "birthday",
+                                                                    birthday);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Text(
+                                                              "Enregistrer"))
+                                                    ],
+                                                  );
+                                                });
                                               });
                                         },
                                         child: const Text("Modifier"))
@@ -129,15 +197,24 @@ class _UserProfilPageState extends State<UserProfilPage> {
                   width: MediaQuery.of(context).size.width - 50,
                   child: Column(
                     children: [
+                      const Text(
+                        "Sortons comme des stars",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Image.network(
+                            "https://i.pinimg.com/564x/50/dd/56/50dd56c2c9cb0dd152527cc0a193b792.jpg"),
+                      ),
                       ElevatedButton(
                           onPressed: () {},
                           child: const Text(
-                              "Inviter des amis et gagner des points")),
+                              "Partager a des amis et gagner des points")),
                       const ListTile(
                         title: Text("Notifications"),
                         trailing: Icon(Icons.notifications),
                       ),
-                      const ListTile(
+                      /*const ListTile(
                         title: Text("Mes Sorties"),
                       ),
                       const ListTile(
@@ -148,7 +225,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                           child: const Text(
                             "Devenir partenaire evenementiel",
                             style: TextStyle(fontWeight: FontWeight.w900),
-                          )),
+                          )),*/
                       const ListTile(
                         title: Text("Conditions d'utilisation"),
                       ),
@@ -180,17 +257,21 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                   );
                                 });
                           },
-                          child: const Text("Déconnexion"))
+                          child: const Text("Déconnexion")),
                     ],
                   ),
-                ))
+                )),
+                const SizedBox(
+                  height: 60,
+                )
               ],
             )),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               print("Instruction de reduction a faire !!");
             },
-            label: const Text("J'y suis")),
+            icon: const Icon(Icons.add),
+            label: const Text("Ajouter")),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: 1,
@@ -204,5 +285,14 @@ class _UserProfilPageState extends State<UserProfilPage> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.account_circle), label: "Moi"),
             ]));
+  }
+
+  Future _pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+    });
   }
 }
