@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
-import 'package:decouvrir/views/pref_page.dart';
+//import 'package:decouvrir/views/pref_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
@@ -37,6 +37,7 @@ class _IdentityPageState extends State<IdentityPage> {
       if (auth!.displayName != null) {
         username.text = auth!.displayName!;
       }
+      _selectedImage = File("path");
     });
     super.initState();
   }
@@ -62,8 +63,8 @@ class _IdentityPageState extends State<IdentityPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: 100,
-                  width: 100,
+                  height: 150,
+                  width: 150,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       image: (imageUrl != "")
@@ -74,7 +75,10 @@ class _IdentityPageState extends State<IdentityPage> {
                       onPressed: () {
                         _pickImageFromGallery();
                       },
-                      icon: const Icon(Icons.add_a_photo)),
+                      icon: Icon(
+                        Icons.add_a_photo,
+                        color: Constantes().mainColor,
+                      )),
                 ),
                 const Text("Ajouter une photo\nde profil")
               ],
@@ -161,12 +165,20 @@ class _IdentityPageState extends State<IdentityPage> {
                     userController
                         .setUserInfo(auth!.uid, userIdentifiant, username.text,
                             parrainCode.text, birthday!, imageUrl)
-                        .then((value) => Navigator.push(context,
+                        .then(
+                            (value) => /*Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return PrefPage(
                                 user: widget.user,
                               );
-                            })));
+                            }))*/
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Félicitation votre profil est crée sur ${Constantes().appName}"),
+                                  backgroundColor: Colors.green,
+                                )));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(

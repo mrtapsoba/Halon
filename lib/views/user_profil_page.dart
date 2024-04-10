@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/models/user_model.dart';
+import 'package:decouvrir/views/add_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:image_picker/image_picker.dart';
@@ -65,7 +66,7 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                           fit: BoxFit.cover,
                                           image: AssetImage(
                                               "widget.userModel.imageUrl!")),
-                                  color: Constantes().mainColor,
+                                  color: Colors.blueGrey,
                                   borderRadius: BorderRadius.circular(62.5)),
                               child: IconButton(
                                   onPressed: () async {
@@ -91,7 +92,10 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                           });
                                     }
                                   },
-                                  icon: const Icon(Icons.add_a_photo)),
+                                  icon: Icon(
+                                    Icons.add_a_photo,
+                                    color: Constantes().mainColor,
+                                  )),
                             ),
                             Container(
                                 margin:
@@ -268,7 +272,9 @@ class _UserProfilPageState extends State<UserProfilPage> {
             )),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              print("Instruction de reduction a faire !!");
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AddPostPage();
+              }));
             },
             icon: const Icon(Icons.add),
             label: const Text("Ajouter")),

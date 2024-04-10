@@ -1,6 +1,7 @@
 import 'package:decouvrir/controllers/post_controller.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/models/post_model.dart';
+import 'package:decouvrir/views/add_post_page.dart';
 import 'package:decouvrir/views/auth_page.dart';
 import 'package:decouvrir/views/categorie_page.dart';
 import 'package:decouvrir/views/one_pub_page.dart';
@@ -354,7 +355,9 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               if (auth != null) {
-                print("Instruction de reduction a faire !!");
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const AddPostPage();
+                }));
               } else {
                 showDialog(
                     context: context,
