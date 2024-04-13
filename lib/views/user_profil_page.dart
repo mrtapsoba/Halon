@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/file_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 import 'package:decouvrir/models/user_model.dart';
 import 'package:decouvrir/views/add_post_page.dart';
@@ -84,7 +85,35 @@ class _UserProfilPageState extends State<UserProfilPage> {
                                                       "Aucune photo selectionnée"),
                                               actions: [
                                                 ElevatedButton(
-                                                    onPressed: () {},
+                                                    onPressed: () async {
+                                                      if (_selectedImage !=
+                                                          null) {
+                                                        Navigator.pop(context);
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(const SnackBar(
+                                                                content: Text(
+                                                                    "Modification en cours"),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green));
+                                                        await FileController()
+                                                            .uploadFile(
+                                                                _selectedImage,
+                                                                "png",
+                                                                "userprofile");
+                                                        if (Constantes
+                                                                .fileLink !=
+                                                            null) {
+                                                          userController
+                                                              .updateUserInfo(
+                                                                  widget.userId,
+                                                                  "photo",
+                                                                  Constantes
+                                                                      .fileLink);
+                                                        }
+                                                      }
+                                                    },
                                                     child: const Text(
                                                         "Enregistrer"))
                                               ],

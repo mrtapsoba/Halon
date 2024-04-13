@@ -209,23 +209,28 @@ class _OnePubPageState extends State<OnePubPage> {
                     Text(
                       "En cours",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 17,
                           fontWeight: FontWeight.w900,
                           color: Constantes().mainColor),
                     ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("Partager",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.w900))),
                     TextButton.icon(
                         onPressed: () {},
                         icon: const Icon(
                           Icons.favorite,
                           color: Colors.red,
-                          size: 35,
+                          size: 30,
                         ),
                         label: Text(
                           "${widget.postModel.noteMoy}",
                           style: const TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontSize: 17),
                         )),
                     /*TextButton.icon(
                         onPressed: () {

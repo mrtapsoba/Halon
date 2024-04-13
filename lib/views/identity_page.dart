@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/file_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
 //import 'package:decouvrir/views/pref_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -153,7 +154,7 @@ class _IdentityPageState extends State<IdentityPage> {
               height: 25,
             ),
             FloatingActionButton.extended(
-                onPressed: () {
+                onPressed: () async {
                   if (username.text != "" && birthday != null) {
                     auth!.updateDisplayName(username.text);
                     String userIdentifiant = "";
@@ -162,23 +163,41 @@ class _IdentityPageState extends State<IdentityPage> {
                     } else if (auth!.email != null) {
                       userIdentifiant = auth!.email!;
                     }
-                    userController
-                        .setUserInfo(auth!.uid, userIdentifiant, username.text,
-                            parrainCode.text, birthday!, imageUrl)
-                        .then(
-                            (value) => /*Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return PrefPage(
-                                user: widget.user,
-                              );
-                            }))*/
-
-                                ScaffoldMessenger.of(context)
+                    if (_selectedImage != null) {
+                      await FileController()
+                          .uploadFile(_selectedImage, "png", "userprofile");
+                      if (Constantes.fileLink != null) {
+                        userController
+                            .setUserInfo(
+                                auth!.uid,
+                                userIdentifiant,
+                                username.text,
+                                parrainCode.text,
+                                birthday!,
+                                Constantes.fileLink!)
+                            .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text(
                                       "Félicitation votre profil est crée sur ${Constantes().appName}"),
                                   backgroundColor: Colors.green,
                                 )));
+                      } else {
+                        userController
+                            .setUserInfo(
+                                auth!.uid,
+                                userIdentifiant,
+                                username.text,
+                                parrainCode.text,
+                                birthday!,
+                                imageUrl)
+                            .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Félicitation votre profil est crée sur ${Constantes().appName}"),
+                                  backgroundColor: Colors.green,
+                                )));
+                      }
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
@@ -192,7 +211,7 @@ class _IdentityPageState extends State<IdentityPage> {
                 label: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width - 100,
-                  child: const Text("Enregister et Suivant",
+                  child: const Text("Enregister",
                       style:
                           TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
                 )),
