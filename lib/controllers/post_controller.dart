@@ -25,9 +25,33 @@ class PostController {
     db
         .collection("posts")
         .doc(postId)
-        .collection("visites")
-        .doc(userId)
-        .set({"user_id": userId, "date_visite": DateTime.now()});
+        .update({"visite_nbr": FieldValue.increment(1)});
+  }
+
+  Future setLike(String postId, String userId, bool isLiked) async {
+    if (!isLiked) {
+      db
+          .collection("posts")
+          .doc(postId)
+          .collection("likes")
+          .doc(userId)
+          .delete();
+      db
+          .collection("posts")
+          .doc(postId)
+          .update({"note_moy": FieldValue.increment(-1)});
+    } else {
+      db
+          .collection("posts")
+          .doc(postId)
+          .collection("likes")
+          .doc(userId)
+          .set({"user_id": userId, "date_visite": DateTime.now()});
+      db
+          .collection("posts")
+          .doc(postId)
+          .update({"note_moy": FieldValue.increment(1)});
+    }
   }
 
   Future setNotation(String postId, NotationModel notationModel) async {

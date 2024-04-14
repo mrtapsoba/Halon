@@ -1,5 +1,6 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
+import 'package:decouvrir/main.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:decouvrir/models/user_model.dart';
 import 'package:decouvrir/views/identity_page.dart';
@@ -145,6 +146,7 @@ class _AuthPageState extends State<AuthPage> {
                                     "Verification automatique réussie"),
                                 backgroundColor: Constantes().mainColor,
                               ));
+                              runApp(const MyApp());
                             },
                             verificationFailed: (FirebaseAuthException e) {
                               String error = "Error";

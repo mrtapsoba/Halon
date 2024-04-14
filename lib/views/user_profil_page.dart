@@ -247,18 +247,6 @@ class _UserProfilPageState extends State<UserProfilPage> {
                         title: Text("Notifications"),
                         trailing: Icon(Icons.notifications),
                       ),
-                      /*const ListTile(
-                        title: Text("Mes Sorties"),
-                      ),
-                      const ListTile(
-                        title: Text("Mes préférences"),
-                      ),
-                      FilledButton.tonal(
-                          onPressed: () {},
-                          child: const Text(
-                            "Devenir partenaire evenementiel",
-                            style: TextStyle(fontWeight: FontWeight.w900),
-                          )),*/
                       const ListTile(
                         title: Text("Conditions d'utilisation"),
                       ),

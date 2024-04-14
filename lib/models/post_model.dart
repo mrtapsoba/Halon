@@ -5,7 +5,6 @@ class PostModel {
   String? type;
   String? nom;
   String? description;
-  PostModel? lieu;
   String? adresse;
   String? mapUrl;
   int? entree;
@@ -22,13 +21,13 @@ class PostModel {
   int? poidsForUser;
   Timestamp? datePost;
   String? menus;
+  String? lien;
 
   PostModel(
       {required this.id,
       this.type,
       this.nom,
       this.description,
-      this.lieu,
       this.adresse,
       this.mapUrl,
       this.entree,
@@ -44,7 +43,8 @@ class PostModel {
       this.poidsForUser,
       this.visiteNbr,
       this.datePost,
-      this.menus});
+      this.menus,
+      this.lien});
 
   factory PostModel.fromDatabase(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -68,6 +68,7 @@ class PostModel {
         commentNbr: data['comment_nbr'] as int,
         noteMoy: data['note_moy'] as int,
         visiteNbr: data['visite_nbr'] as int,
-        menus: data['menus']);
+        menus: data['menus'],
+        lien: data['lien']);
   }
 }

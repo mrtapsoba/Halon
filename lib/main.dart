@@ -1,4 +1,5 @@
 import 'package:decouvrir/controllers/auth_controller.dart';
+import 'package:decouvrir/controllers/notification_controller.dart';
 import 'package:decouvrir/models/constantes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  NotificationController.initialize();
   runApp(const MyApp());
 }
 

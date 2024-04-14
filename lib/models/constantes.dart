@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Constantes {
   String imagetest =
@@ -7,3 +8,7 @@ class Constantes {
   Color mainColor = Colors.blue;
   static String? fileLink;
 }
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    "Prime_Club", "Prime_Club",
+    description: "Prime_Club", playSound: true, importance: Importance.high);
