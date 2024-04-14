@@ -43,6 +43,7 @@ class _AuthPageState extends State<AuthPage> {
               }
               return UserProfilPage(
                 userId: user.uid,
+                identifiant: snapdata[0]['identifiant'],
                 userModel: UserModel(
                   nom: snapdata[0]['nom'],
                   imageUrl: snapdata[0]['photo'],

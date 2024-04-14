@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:share_plus/share_plus.dart';
 import 'package:decouvrir/controllers/auth_controller.dart';
 import 'package:decouvrir/controllers/file_controller.dart';
 import 'package:decouvrir/controllers/user_controller.dart';
@@ -11,9 +11,13 @@ import 'package:image_picker/image_picker.dart';
 
 class UserProfilPage extends StatefulWidget {
   const UserProfilPage(
-      {super.key, required this.userId, required this.userModel});
+      {super.key,
+      required this.userId,
+      required this.userModel,
+      required this.identifiant});
   final String userId;
   final UserModel userModel;
+  final String identifiant;
 
   @override
   State<UserProfilPage> createState() => _UserProfilPageState();
@@ -240,7 +244,10 @@ class _UserProfilPageState extends State<UserProfilPage> {
                             "https://i.pinimg.com/564x/50/dd/56/50dd56c2c9cb0dd152527cc0a193b792.jpg"),
                       ),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Share.share(
+                                "Hello, tu vas bien ? j'ai trouvé une super app pour découvrir les evenements et les lieux les plus agréable de Ouagadougou\n Telecharge cette app ${Constantes().applink}\n Et utilise mon Code ${widget.identifiant} \n${widget.userModel.nom} ");
+                          },
                           child: const Text(
                               "Partager a des amis et gagner des points")),
                       const ListTile(
