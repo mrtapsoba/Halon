@@ -7,6 +7,7 @@ import 'package:decouvrir/views/container/container_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:decouvrir/models/constantes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OnePubPage extends StatefulWidget {
   const OnePubPage({super.key, required this.postModel});
@@ -19,6 +20,14 @@ class _OnePubPageState extends State<OnePubPage> {
   User? auth = FirebaseAuth.instance.currentUser;
   PostController postController = PostController();
   UserController userController = UserController();
+
+  Future<void> _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -28,12 +37,10 @@ class _OnePubPageState extends State<OnePubPage> {
           print(auth!.uid);
           List<Map<String, dynamic>> myLiked = [];
           if (snapshotStream.hasError) {
-            print("echo");
             print(snapshotStream.error);
           }
           if (snapshotStream.hasData) {
             myLiked = snapshotStream.data as List<Map<String, dynamic>>;
-            print(myLiked);
           }
           return Scaffold(
             body: Stack(children: [
@@ -95,8 +102,7 @@ class _OnePubPageState extends State<OnePubPage> {
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                      "Catégories : ${widget.postModel.categories}"),
+                                  //Text("Catégories : ${widget.postModel.categories}"),
                                   Text("${widget.postModel.description}"),
                                   Text(
                                     "Adresse : ${widget.postModel.adresse}",
@@ -170,60 +176,116 @@ class _OnePubPageState extends State<OnePubPage> {
                                   ),
                                   SizedBox(
                                       height: 290,
-                                      child: ListView.builder(
-                                          itemCount: 3,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            return Card(
-                                                child: Column(children: [
-                                              Container(
-                                                width: 200,
-                                                height: 200,
-                                                decoration: BoxDecoration(
-                                                  image: const DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          "https://i.pinimg.com/564x/fe/86/45/fe8645a2f65a18601b13465444d6c934.jpg")),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              const Text(
-                                                "RifkaLand",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  const Text(
-                                                    "A venir   ",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey),
-                                                  ),
-                                                  TextButton.icon(
-                                                      onPressed: () {},
-                                                      icon: const Icon(
-                                                        Icons.favorite_border,
-                                                        color: Colors.red,
-                                                      ),
-                                                      label: const Text(
-                                                        "45",
-                                                        style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      )),
-                                                ],
-                                              ),
-                                            ]));
+                                      child: FutureBuilder(
+                                          future: PostController().getCategorie(
+                                              "${widget.postModel.type}",
+                                              isSimulaire: true),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasError) {
+                                              print(snapshot.error);
+                                            }
+                                            if (snapshot.hasData) {
+                                              List<PostModel> catPosts =
+                                                  snapshot.requireData;
+                                              if (catPosts.isEmpty) {
+                                                return const Text(
+                                                    "Oh oh aucun element correspondant");
+                                              }
+                                              return ListView.builder(
+                                                  itemCount: catPosts.length,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                            return OnePubPage(
+                                                                postModel:
+                                                                    catPosts[
+                                                                        index]);
+                                                          }));
+                                                        },
+                                                        child: Card(
+                                                            child: Column(
+                                                                children: [
+                                                              Container(
+                                                                width: 200,
+                                                                height: 200,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image: NetworkImage(
+                                                                          catPosts[index]
+                                                                              .imageUrl[0])),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                catPosts[index]
+                                                                    .nom!,
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                children: [
+                                                                  Text(
+                                                                    determineEventStatus(
+                                                                        startDate: catPosts[index]
+                                                                            .dateDebut!
+                                                                            .toDate(),
+                                                                        endDate: catPosts[index]
+                                                                            .dateFin!
+                                                                            .toDate()),
+                                                                    style: const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        color: Colors
+                                                                            .grey),
+                                                                  ),
+                                                                  TextButton.icon(
+                                                                      onPressed: () {},
+                                                                      icon: const Icon(
+                                                                        Icons
+                                                                            .favorite,
+                                                                        color: Colors
+                                                                            .red,
+                                                                      ),
+                                                                      label: Text(
+                                                                        "${catPosts[index].noteMoy}",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.grey,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                      )),
+                                                                ],
+                                                              ),
+                                                            ])));
+                                                  });
+                                            }
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
                                           })),
                                   const SizedBox(
                                     height: 100,
@@ -242,7 +304,9 @@ class _OnePubPageState extends State<OnePubPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "En cours",
+                            determineEventStatus(
+                                startDate: widget.postModel.dateDebut!.toDate(),
+                                endDate: widget.postModel.dateFin!.toDate()),
                             style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w900,
@@ -323,12 +387,34 @@ class _OnePubPageState extends State<OnePubPage> {
                         ],
                       ),
                     ])),
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {},
-              label: const Text("J'y vais / Localisation"),
-              icon: const Icon(Icons.location_on),
-            ),
+            floatingActionButton: (widget.postModel.mapUrl != "")
+                ? FloatingActionButton.extended(
+                    onPressed: () {
+                      _launchUrl(widget.postModel.mapUrl);
+                    },
+                    label: const Text("J'y vais / Localisation"),
+                    icon: const Icon(Icons.location_on),
+                  )
+                : null,
           );
         }));
+  }
+
+  String determineEventStatus({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    DateTime now = DateTime.now();
+
+    if (now.isBefore(startDate)) {
+      // L'événement est à venir
+      return "À venir";
+    } else if (now.isAfter(endDate)) {
+      // L'événement est passé
+      return "Passé";
+    } else {
+      // L'événement est en cours
+      return "En cours";
+    }
   }
 }

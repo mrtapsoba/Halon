@@ -156,6 +156,13 @@ class _IdentityPageState extends State<IdentityPage> {
             FloatingActionButton.extended(
                 onPressed: () async {
                   if (username.text != "" && birthday != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                        "Enregistrement en cours, veuillez patienter",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      backgroundColor: Colors.blue,
+                    ));
                     auth!.updateDisplayName(username.text);
                     String userIdentifiant = "";
                     if (auth!.phoneNumber != null) {

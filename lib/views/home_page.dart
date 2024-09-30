@@ -124,7 +124,6 @@ class _HomePageState extends State<HomePage> {
                                             categorie: "Event",
                                           );
                                         }));
-                                        
                                       },
                                       child: Card(
                                           child: Container(
